@@ -27,7 +27,7 @@ public class AñadirPropiedad extends JFrame {
 	private JTextField txtCasa;
 	private JTextField txtCuidad;
 	private JLabel lblFacilidades;
-	private JButton btnNewButton;
+	private JButton btnSeleccionarFa;
 
 	/**
 	 * Launch the application.
@@ -74,32 +74,46 @@ public class AñadirPropiedad extends JFrame {
 		panel.add(lblVendedor);
 		
 		JLabel lblTipo = new JLabel("Tipo:\r\n");
-		lblTipo.setBounds(10, 88, 50, 13);
+		lblTipo.setBounds(11, 88, 76, 13);
 		panel.add(lblTipo);
 		
 		txtIdPropiedad = new JTextField();
-		txtIdPropiedad.setBounds(85, 32, 158, 19);
+		txtIdPropiedad.setEditable(false);
+		txtIdPropiedad.setBounds(96, 33, 158, 19);
 		panel.add(txtIdPropiedad);
 		txtIdPropiedad.setColumns(10);
 		
 		txtIdPropietario = new JTextField();
+		txtIdPropietario.setEditable(false);
 		txtIdPropietario.setColumns(10);
 		txtIdPropietario.setBounds(350, 32, 158, 19);
 		panel.add(txtIdPropietario);
-		
+	
 		lblPrecio = new JLabel("Precio:");
-		lblPrecio.setBounds(270, 88, 50, 13);
+		lblPrecio.setBounds(167, 88, 76, 13);
 		panel.add(lblPrecio);
 		
 		txtPrecio = new JTextField();
 		txtPrecio.setColumns(10);
-		txtPrecio.setBounds(350, 84, 158, 19);
+		txtPrecio.setBounds(212, 85, 105, 19);
 		panel.add(txtPrecio);
 		
 		JComboBox cmbTipo = new JComboBox();
 		cmbTipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar"}));
-		cmbTipo.setBounds(85, 83, 158, 22);
+		cmbTipo.setBounds(46, 83, 105, 22);
 		panel.add(cmbTipo);
+		
+		lblFacilidades = new JLabel("Facilidades:");
+		lblFacilidades.setBounds(327, 88, 76, 13);
+		panel.add(lblFacilidades);
+		
+		btnSeleccionarFa = new JButton("Seleccionar");
+		btnSeleccionarFa.setBounds(403, 83, 105, 23);
+		panel.add(btnSeleccionarFa);
+		btnSeleccionarFa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		
 		
 		JButton btnAgregar = new JButton("Registrar");
@@ -150,18 +164,6 @@ public class AñadirPropiedad extends JFrame {
 		txtCuidad.setColumns(10);
 		txtCuidad.setBounds(85, 84, 158, 19);
 		panel_1.add(txtCuidad);
-		
-		lblFacilidades = new JLabel("Facilidades:");
-		lblFacilidades.setBounds(274, 88, 78, 13);
-		panel_1.add(lblFacilidades);
-		
-		btnNewButton = new JButton("Seleccionar:\r\n");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setBounds(350, 83, 158, 23);
-		panel_1.add(btnNewButton);
 		
         setLocationRelativeTo(null);
 
