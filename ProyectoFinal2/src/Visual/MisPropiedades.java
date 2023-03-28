@@ -70,23 +70,27 @@ public class MisPropiedades extends JDialog {
 		btnInicio.setBounds(10, 24, 89, 23);
 		panel.add(btnInicio);
 		
-		JButton btnNewButton = new JButton("A\u00F1adir");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnAñadir = new JButton("A\u00F1adir");
+		btnAñadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AñadirPropiedad AñadirP = new AñadirPropiedad();
 				AñadirP.setVisible(true);
 		        setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(10, 58, 89, 23);
-		panel.add(btnNewButton);
+		btnAñadir.setBounds(10, 58, 89, 23);
+		panel.add(btnAñadir);
 		
-		JButton btnNewButton_1 = new JButton("Modificar");
-		btnNewButton_1.setBounds(10, 92, 89, 23);
-		panel.add(btnNewButton_1);
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnModificar.setBounds(10, 92, 89, 23);
+		panel.add(btnModificar);
 		
-		JButton btnNewButton_2 = new JButton("Eliminar");
-		btnNewButton_2.setBounds(10, 126, 89, 23);
-		panel.add(btnNewButton_2);
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(10, 126, 89, 23);
+		panel.add(btnEliminar);
 	}
 }
