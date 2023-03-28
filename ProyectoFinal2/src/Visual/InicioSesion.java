@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 public class InicioSesion extends JFrame {
 
@@ -44,6 +45,7 @@ public class InicioSesion extends JFrame {
 	 * Create the frame.
 	 */
 	public InicioSesion() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(InicioSesion.class.getResource("/Image/homepage_home_house_icon_153873.png")));
 		setTitle("Iniciar Sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 492, 422);

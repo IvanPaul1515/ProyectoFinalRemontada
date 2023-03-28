@@ -56,12 +56,12 @@ public class Principal extends JFrame {
         
         JPanel panel_1 = new JPanel();
         panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-        panel_1.setBounds(10, 286, 1724, 584);
+        panel_1.setBounds(10, 286, 1374, 434);
         panel.add(panel_1);
         
         txtBuscar = new JTextField();
         txtBuscar.setText("Buscar Ciudad...");
-        txtBuscar.setBounds(629, 32, 504, 29);
+        txtBuscar.setBounds(450, 32, 504, 29);
         panel.add(txtBuscar);
         txtBuscar.setColumns(10);
         
@@ -73,7 +73,7 @@ public class Principal extends JFrame {
         	
         	}
         });
-        btnMisPropiedades.setBounds(0, 0, 130, 23);
+        btnMisPropiedades.setBounds(0, 0, 120, 23);
         panel.add(btnMisPropiedades);
         cmbFiltro = new JComboBox();
         cmbFiltro.setModel(new DefaultComboBoxModel(new String[] {"Filtrar...", "Recientes", "Disponibles", "Precio", "Mas Rentadas", "Casa", "Habitaci\u00F3n", "Apartamento "}));
@@ -87,7 +87,7 @@ public class Principal extends JFrame {
         	}
         });
         btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/Image/search_look_for_seek_magnifying_glass_lens_icon_141967 (1).png")));
-        btnNewButton.setBounds(1133, 32, 41, 29);
+        btnNewButton.setBounds(952, 32, 41, 29);
         panel.add(btnNewButton);
         
         JButton btnIniciarSesion = new JButton("Iniciar Sesion");
@@ -98,7 +98,7 @@ public class Principal extends JFrame {
 		        setVisible(false);
         	}
         });
-        btnIniciarSesion.setBounds(1624, 1, 120, 21);
+        btnIniciarSesion.setBounds(1274, 1, 120, 21);
         panel.add(btnIniciarSesion);
         
         JButton btnRegistrarse = new JButton("Registrarse ");
@@ -111,18 +111,18 @@ public class Principal extends JFrame {
 
         	}
         });
-        btnRegistrarse.setBounds(1515, 1, 110, 21);
+        btnRegistrarse.setBounds(1155, 1, 120, 21);
         panel.add(btnRegistrarse);
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/Image/house_rent_home_building_icon_231026 (2).png")));
-        lblNewLabel.setBounds(748, 72, 256, 206);
+        lblNewLabel.setBounds(574, 72, 256, 206);
         panel.add(lblNewLabel);
 
         // Agrega el código para establecer el tamaño y la posición de la ventana
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = screenSize.height - 150;
-        int width = screenSize.width - 150;
+        int height = screenSize.height - 300;
+        int width = screenSize.width - 500;
         setSize(width, height);
         setLocationRelativeTo(null);
 
