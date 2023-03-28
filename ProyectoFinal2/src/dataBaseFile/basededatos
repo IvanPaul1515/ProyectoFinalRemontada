@@ -1,5 +1,5 @@
 CREATE DATABASE SistemaArrendamiento;
-
+DROP DATABASE SistemaArrendamiento;
 USE SistemaArrendamiento;
 
 CREATE TABLE Usuario(
@@ -16,18 +16,12 @@ CREATE TABLE Usuario(
 	Clase varchar(5)
 );
 
-ALTER TABLE Usuario 
-ADD CONSTRAINT check_User CHECK ( ID_User NOT LIKE '%[^A-Z a-z 0-9]%' AND Nom1 NOT LIKE '%[^A-Za-z]%' 
-AND Nom2  NOT LIKE '%[^A-Za-z]%' AND Ape1  NOT LIKE '%[^A-Za-z]%' AND Ape2 NOT LIKE '%[^A-Za-z]%' AND cedula NOT LIKE '%[^0-9]%'
-AND Telefono NOT LIKE '%[^0-9]%');
 
 CREATE TABLE Cliente (
 	Id_Client varchar (10) NOT NULL PRIMARY KEY, 
 	FOREIGN KEY (Id_Client) REFERENCES Usuario(ID_User)
 );
 
-ALTER TABLE Cliente 
-ADD CONSTRAINT check_Cliente CHECK ( Id_Client NOT LIKE '%[^A-Z a-z 0-9]%');
 
 CREATE TABLE Vendedor (
 	Id_Ven varchar (10) NOT NULL PRIMARY KEY, 
@@ -35,16 +29,12 @@ CREATE TABLE Vendedor (
 	FOREIGN KEY (Id_Ven) REFERENCES Usuario(ID_User)
 );
 
-ALTER TABLE Vendedor 
-ADD CONSTRAINT check_Vendedor CHECK ( Id_Ven NOT LIKE '%[^A-Z a-z 0-9]%' AND Tipo LIKE '[PE]')
 
 CREATE TABLE Administrador (
 	Id_Adm varchar (10) NOT NULL PRIMARY KEY,
 	FOREIGN KEY (Id_Adm) REFERENCES Usuario(ID_User)
 );
 
-ALTER TABLE Administrador  
-ADD CONSTRAINT check_Adm CHECK ( Id_Adm NOT LIKE '%[^A-Z a-z 0-9]%');
 
 CREATE TABLE Propiedad_Tipo(
 	Tip_Id varchar(10) NOT NULL PRIMARY KEY,
@@ -72,8 +62,6 @@ CREATE TABLE Propiedad_Faci (
 	PRIMARY KEY (Id_Propiedad, Id_Facilidad)
 );
 
-ALTER TABLE Propiedad_Faci 
-ADD CONSTRAINT check_Facilidades CHECK ( Facilidad  NOT LIKE '%[^A-Za-z]%' );
 
 CREATE TABLE Propiedad_Dir (
 	Id_Propiedad varchar (10) FOREIGN KEY REFERENCES Propiedad(Id_Propiedad),
@@ -106,11 +94,6 @@ CREATE TABLE Factura (
 	Fecha_Factura datetime DEFAULT GETDATE(), 
 	Monto int 
 );
---La factura se genera automatico no necesita constraint...
-
-ALTER TABLE Reserva  
-ADD CONSTRAINT check_Reserva CHECK ( Id_Reserva NOT LIKE '%[^A-Z a-z 0-9]%' AND Costo > 0 AND Fecha_Reserva >= GETDATE()
-AND Check_in >= GETDATE() AND Check_out >= GETDATE());
 
 CREATE TABLE Retroalimentacion (
 	Id_Ret varchar (10) NOT NULL PRIMARY KEY, 
@@ -139,6 +122,77 @@ CREATE TABLE Autorizar_Post(
   FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad)
 );
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE Usuario 
+ADD CONSTRAINT check_User CHECK ( ID_User NOT LIKE '%[^A-Z a-z 0-9]%' AND Nom1 NOT LIKE '%[^A-Za-z]%' 
+AND Nom2  NOT LIKE '%[^A-Za-z]%' AND Ape1  NOT LIKE '%[^A-Za-z]%' AND Ape2 NOT LIKE '%[^A-Za-z]%' AND cedula NOT LIKE '%[^0-9]%'
+AND Telefono NOT LIKE '%[^0-9]%');
+
+
+ALTER TABLE Cliente 
+ADD CONSTRAINT check_Cliente CHECK ( Id_Client NOT LIKE '%[^A-Z a-z 0-9]%');
+
+
+ALTER TABLE Vendedor 
+ADD CONSTRAINT check_Vendedor CHECK ( Id_Ven NOT LIKE '%[^A-Z a-z 0-9]%' AND Tipo LIKE '[PE]')
+
+
+ALTER TABLE Administrador  
+ADD CONSTRAINT check_Adm CHECK ( Id_Adm NOT LIKE '%[^A-Z a-z 0-9]%');
+
+ALTER TABLE Propiedad_Faci 
+ADD CONSTRAINT check_Facilidades CHECK ( Facilidad  NOT LIKE '%[^A-Za-z]%' );
+
+
+--La factura se genera automatico no necesita constraint...
+ALTER TABLE Reserva  
+ADD CONSTRAINT check_Reserva CHECK ( Id_Reserva NOT LIKE '%[^A-Z a-z 0-9]%' AND Costo > 0 AND Fecha_Reserva >= GETDATE()
+AND Check_in >= GETDATE() AND Check_out >= GETDATE());
 
 
 INSERT INTO Usuario(ID_User, Nom1, Nom2, Ape1, Ape2, Correo, Telefono, cedula, user_nick, user_pass, Clase ) VALUES ('10001', 'Juan', 'Carlos', 'Pérez', 'García', 'juan.perez@gmail.com', '555-1234', '1234567890', 'jcperez', 'password1', 'A');
