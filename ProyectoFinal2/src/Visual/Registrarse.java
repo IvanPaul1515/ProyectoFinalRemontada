@@ -109,7 +109,7 @@ public class Registrarse extends JFrame {
 		txtApe2.setBounds(439, 89, 165, 19);
 		panel.add(txtApe2);
 		
-		lblCorreoElectronico = new JLabel("Correo ElectrÃ³nico:");
+		lblCorreoElectronico = new JLabel("Correo Electrónico:");
 		lblCorreoElectronico.setBounds(10, 143, 123, 13);
 		panel.add(lblCorreoElectronico);
 		
@@ -118,7 +118,7 @@ public class Registrarse extends JFrame {
 		txtCorreo.setBounds(136, 140, 468, 19);
 		panel.add(txtCorreo);
 		
-		lblTelfono = new JLabel("TelÃ©fono:");
+		lblTelfono = new JLabel("Teléfono:");
 		lblTelfono.setBounds(50, 190, 123, 13);
 		panel.add(lblTelfono);
 		
@@ -127,7 +127,7 @@ public class Registrarse extends JFrame {
 		txtTelefono.setBounds(136, 187, 165, 19);
 		panel.add(txtTelefono);
 		
-		lblCdula = new JLabel("CÃ©dula:");
+		lblCdula = new JLabel("Cédula:");
 		lblCdula.setBounds(366, 190, 123, 13);
 		panel.add(lblCdula);
 		
@@ -145,7 +145,7 @@ public class Registrarse extends JFrame {
 		txtUsername.setBounds(136, 235, 165, 19);
 		panel.add(txtUsername);
 		
-		lblContrasea = new JLabel("ContraseÃ±a:");
+		lblContrasea = new JLabel("Contraseña:");
 		lblContrasea.setBounds(346, 238, 123, 13);
 		panel.add(lblContrasea);
 		

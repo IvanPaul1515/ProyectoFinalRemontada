@@ -44,7 +44,7 @@ public class InicioSesion extends JFrame {
 	 * Create the frame.
 	 */
 	public InicioSesion() {
-		setTitle("Iniciar SesiÃ³n");
+		setTitle("Iniciar Sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 508, 466);
 		contentPane = new JPanel();
@@ -60,11 +60,11 @@ public class InicioSesion extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/usuario (2).png")));
+		//lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/usuario (2).png")));
 		lblNewLabel.setBounds(154, 0, 167, 171);
 		panel.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("ContraseÃ±a:");
+		JLabel lblNewLabel_1 = new JLabel("Contraseña:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1.setBounds(194, 263, 116, 19);
 		panel.add(lblNewLabel_1);

@@ -55,12 +55,12 @@ public class Principal extends JFrame {
         
         JPanel panel_1 = new JPanel();
         panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-        panel_1.setBounds(10, 286, 1674, 534);
+        panel_1.setBounds(10, 286, 1724, 584);
         panel.add(panel_1);
         
         txtBuscar = new JTextField();
         txtBuscar.setText("Buscar Ciudad...");
-        txtBuscar.setBounds(445, 44, 504, 29);
+        txtBuscar.setBounds(467, 44, 504, 29);
         panel.add(txtBuscar);
         txtBuscar.setColumns(10);
         
@@ -75,14 +75,18 @@ public class Principal extends JFrame {
         btnMisPropiedades.setBounds(0, 0, 130, 23);
         panel.add(btnMisPropiedades);
         cmbFiltro = new JComboBox();
-        cmbFiltro.setModel(new DefaultComboBoxModel(new String[] {"Filtrar...", "Casa", "HabitaciÃ³n", "Apartamento "}));
+        cmbFiltro.setModel(new DefaultComboBoxModel(new String[] {"Filtrar...", "Casa", "Habitación", "Apartamento "}));
         cmbFiltro.setToolTipText("");
         cmbFiltro.setBounds(10, 236, 120, 22);
         panel.add(cmbFiltro);
         
         JButton btnNewButton = new JButton("");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
         btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/Image/search_look_for_seek_magnifying_glass_lens_icon_141967 (1).png")));
-        btnNewButton.setBounds(959, 44, 41, 29);
+        btnNewButton.setBounds(970, 44, 41, 29);
         panel.add(btnNewButton);
         
         JButton btnIniciarSesion = new JButton("Iniciar Sesion");
@@ -93,7 +97,7 @@ public class Principal extends JFrame {
 		        setVisible(false);
         	}
         });
-        btnIniciarSesion.setBounds(1232, 1, 120, 21);
+        btnIniciarSesion.setBounds(1624, 1, 120, 21);
         panel.add(btnIniciarSesion);
         
         JButton btnRegistrarse = new JButton("Registrarse ");
@@ -106,15 +110,15 @@ public class Principal extends JFrame {
 
         	}
         });
-        btnRegistrarse.setBounds(1125, 1, 110, 21);
+        btnRegistrarse.setBounds(1516, 1, 110, 21);
         panel.add(btnRegistrarse);
         
         JLabel lblImagen = new JLabel("");
-        lblImagen.setIcon(new ImageIcon(Principal.class.getResource("/Image/clave (1).png")));
+        //lblImagen.setIcon(new ImageIcon(Principal.class.getResource("/Image/clave (1).png")));
         lblImagen.setBounds(567, 102, 331, 126);
         panel.add(lblImagen);
 
-        // Agrega el cÃ³digo para establecer el tamaÃ±o y la posiciÃ³n de la ventana
+        // Agrega el código para establecer el tamaño y la posición de la ventana
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = screenSize.height - 150;
         int width = screenSize.width - 150;
