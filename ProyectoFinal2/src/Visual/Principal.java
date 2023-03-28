@@ -41,6 +41,7 @@ public class Principal extends JFrame {
      * Create the frame.
      */
     public Principal() {
+    	setTitle("YouJevaRent");
     	setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Image/homepage_home_house_icon_153873.png")));
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,11 +67,13 @@ public class Principal extends JFrame {
         txtBuscar.setColumns(10);
         
         btnMisPropiedades = new JButton("Mis Propiedades");
-        btnMisPropiedades.setVisible(false);
+        btnMisPropiedades.setVisible(true);
 
         btnMisPropiedades.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        	
+        		MisPropiedades MisPropie = new MisPropiedades();
+        		MisPropie.setVisible(true);
+		        setVisible(false);
         	}
         });
         btnMisPropiedades.setBounds(0, 0, 120, 23);

@@ -19,6 +19,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Registrarse extends JFrame {
 
@@ -58,6 +59,7 @@ public class Registrarse extends JFrame {
 	 * Create the frame.
 	 */
 	public Registrarse() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Registrarse.class.getResource("/Image/homepage_home_house_icon_153873.png")));
 		setTitle("Registrarse");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 676, 481);
