@@ -46,7 +46,7 @@ public class InicioSesion extends JFrame {
 	public InicioSesion() {
 		setTitle("Iniciar Sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 508, 466);
+		setBounds(100, 100, 492, 422);
 		contentPane = new JPanel();
 		contentPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
@@ -55,33 +55,34 @@ public class InicioSesion extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 10, 478, 402);
+		panel.setBounds(10, 10, 463, 362);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/avatardefault_92824.png")));
 		//lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/usuario (2).png")));
-		lblNewLabel.setBounds(154, 0, 167, 171);
+		lblNewLabel.setBounds(179, 33, 96, 110);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Contraseña:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1.setBounds(194, 263, 116, 19);
+		lblNewLabel_1.setBounds(188, 221, 116, 19);
 		panel.add(lblNewLabel_1);
 		
 		txtContraseña = new JTextField();
-		txtContraseña.setBounds(127, 292, 207, 19);
+		txtContraseña.setBounds(120, 250, 214, 19);
 		panel.add(txtContraseña);
 		txtContraseña.setColumns(10);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Usuario:");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_1.setBounds(207, 197, 78, 13);
+		lblNewLabel_1_1.setBounds(199, 154, 116, 19);
 		panel.add(lblNewLabel_1_1);
 		
 		txtUsername = new JTextField();
 		txtUsername.setColumns(10);
-		txtUsername.setBounds(127, 223, 207, 19);
+		txtUsername.setBounds(120, 181, 214, 19);
 		panel.add(txtUsername);
 		
 		JButton btnCancelar = new JButton("Cancelar ");
@@ -93,16 +94,16 @@ public class InicioSesion extends JFrame {
 			}
 		});
 		btnCancelar.setForeground(new Color(255, 0, 0));
-		btnCancelar.setBounds(231, 347, 97, 21);
+		btnCancelar.setBounds(231, 305, 116, 21);
 		panel.add(btnCancelar);
 		
-		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.addActionListener(new ActionListener() {
+		JButton btnIniciarSesion = new JButton("Iniciar Sesi\u00F3n");
+		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAceptar.setBounds(120, 347, 85, 21);
-		panel.add(btnAceptar);
+		btnIniciarSesion.setBounds(107, 305, 116, 21);
+		panel.add(btnIniciarSesion);
 		
         setLocationRelativeTo(null);
 
