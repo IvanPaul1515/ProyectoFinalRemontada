@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Logico.Conexion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -26,6 +29,7 @@ public class AdmUsuario extends JDialog {
 			AdmUsuario dialog = new AdmUsuario();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			Conexion.debrequest("SELECT * FROM Usuario");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
