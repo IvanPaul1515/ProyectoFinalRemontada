@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.JPasswordField;
 
 public class Registrarse extends JFrame {
 
@@ -45,12 +46,12 @@ public class Registrarse extends JFrame {
 	private JLabel lblUsuario;
 	private JTextField txtUsername;
 	private JLabel lblContrasea;
-	private JTextField txtContraseña;
 	private JRadioButton rdbtnCliente;
 	private JRadioButton rdbtnPropietario;
 	private JPanel PanelTipoP;
 	private JRadioButton rdbtnPersona;
 	private JRadioButton rdbtnEmpresa;
+	private JPasswordField txtContraseña;
 
 	/**
 	 * Launch the application.
@@ -164,8 +165,7 @@ public class Registrarse extends JFrame {
 		lblContrasea.setBounds(346, 238, 123, 13);
 		panel.add(lblContrasea);
 		
-		txtContraseña = new JTextField();
-		txtContraseña.setColumns(10);
+		txtContraseña = new JPasswordField();
 		txtContraseña.setBounds(439, 235, 165, 19);
 		panel.add(txtContraseña);
 		

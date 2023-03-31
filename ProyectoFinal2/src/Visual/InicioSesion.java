@@ -26,12 +26,13 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Toolkit;
+import javax.swing.JPasswordField;
 
 public class InicioSesion extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtContraseña;
 	private JTextField txtUsername;
+	private JPasswordField txtContraseña;
 
 	/**
 	 * Launch the application.
@@ -80,11 +81,6 @@ public class InicioSesion extends JFrame {
 		lblNewLabel_1.setBounds(188, 221, 116, 19);
 		panel.add(lblNewLabel_1);
 		
-		txtContraseña = new JTextField();
-		txtContraseña.setBounds(120, 250, 214, 19);
-		panel.add(txtContraseña);
-		txtContraseña.setColumns(10);
-		
 		JLabel lblNewLabel_1_1 = new JLabel("Usuario:");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1_1.setBounds(199, 154, 116, 19);
@@ -129,6 +125,10 @@ public class InicioSesion extends JFrame {
 		btnIniciarSesion.setBounds(107, 305, 116, 21);
 		panel.add(btnIniciarSesion);
 		
+		txtContraseña = new JPasswordField();
+		txtContraseña.setBounds(120, 250, 214, 19);
+		panel.add(txtContraseña);
+		
         setLocationRelativeTo(null);
 
 	}
@@ -160,9 +160,4 @@ public class InicioSesion extends JFrame {
 		txtContraseña.setText("");
 
 	}
-
-
-
-
-
 }
