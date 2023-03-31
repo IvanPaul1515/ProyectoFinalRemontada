@@ -6,9 +6,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.border.TitledBorder;
+
+import Logico.Conexion;
+
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -18,6 +22,10 @@ import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
@@ -38,6 +46,11 @@ public class Registrarse extends JFrame {
 	private JTextField txtUsername;
 	private JLabel lblContrasea;
 	private JTextField txtContraseña;
+	private JRadioButton rdbtnCliente;
+	private JRadioButton rdbtnPropietario;
+	private JPanel PanelTipoP;
+	private JRadioButton rdbtnPersona;
+	private JRadioButton rdbtnEmpresa;
 
 	/**
 	 * Launch the application.
@@ -62,7 +75,7 @@ public class Registrarse extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Registrarse.class.getResource("/Image/homepage_home_house_icon_153873.png")));
 		setTitle("Registrarse");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 676, 481);
+		setBounds(100, 100, 670, 509);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
@@ -162,30 +175,70 @@ public class Registrarse extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JRadioButton rdbtnCliente = new JRadioButton("Cliente");
+		rdbtnCliente = new JRadioButton("Cliente");
 		
-		JRadioButton rdbtnPropietario = new JRadioButton("Propietario ");
+		//MODIFIQUE AQUI
+		rdbtnPropietario = new JRadioButton("Propietario ");
 		rdbtnPropietario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rdbtnCliente.setSelected(false);
 				rdbtnPropietario.setSelected(true);
+				PanelTipoP.setVisible(true);
 			}
 		});
 		rdbtnPropietario.setBounds(306, 29, 103, 21);
 		panel_1.add(rdbtnPropietario);
 		
+		//MODIFIQUE AQUI 
 		rdbtnCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rdbtnCliente.setSelected(true);
 				rdbtnPropietario.setSelected(false);
+				PanelTipoP.setVisible(false);
 			}
 		});
 		rdbtnCliente.setBounds(181, 29, 103, 21);
 		panel_1.add(rdbtnCliente);
 		
-		
+		//MODIFIQUE AQUI
 		JButton btnRegistrar = new JButton("Registrar");
-		btnRegistrar.setBounds(441, 412, 97, 21);
+		btnRegistrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			    String user_nick = txtUsername.getText();
+			    String nombre = txtNomb1.getText();
+			    String nombre2 = txtNomb2.getText();
+			    String apellido = txtApe1.getText(); 
+			    String apellido2 = txtApe2.getText();
+			    String correo = txtCorreo.getText();
+			    String tel = txtTelefono.getText();
+			    String ced = txtCedula.getText();
+			    String contrasena = txtContraseña.getText();
+			    String tipo;
+			    String tipoPropietario = null;
+
+			    
+			    if(rdbtnCliente.isSelected() == true){
+			    	tipo = "C";
+			    }else {
+			    	tipo = "B";
+			    	if(rdbtnPersona.isSelected() == true) {
+			    		tipoPropietario = "P";
+			    	}else if (rdbtnEmpresa.isSelected() == true){
+			    		tipoPropietario = "E";
+			    	}
+			    }
+			    
+				if(validarUserNick(user_nick)) {
+			        JOptionPane.showMessageDialog(null, "El user_nick ya existe. Por favor, elige otro.");
+			    }else {
+			    	insertarUsuario(nombre, nombre2, apellido, apellido2, correo, tel, ced, user_nick,contrasena,tipo,tipoPropietario);
+			        JOptionPane.showMessageDialog(null, "Su usuario se ha registrado exitosamente");
+			        //ME FALTA QUE DESPUES DE REGISTRARSE MANDARLO A LA PRINCIPAL 
+			    }
+				
+			}
+		});
+		btnRegistrar.setBounds(440, 441, 97, 21);
 		contentPane.add(btnRegistrar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -198,11 +251,75 @@ public class Registrarse extends JFrame {
 			}
 		});
 		btnCancelar.setForeground(new Color(255, 0, 0));
-		btnCancelar.setBounds(548, 412, 85, 21);
+		btnCancelar.setBounds(551, 441, 85, 21);
 		contentPane.add(btnCancelar);
 		
+		//MODIFIQUE AQUI 
+		//AGREGUE UN PANEL PARA EL TIPO DE PROPIETARIO 
+		PanelTipoP = new JPanel();
+		PanelTipoP.setVisible(false);
+		PanelTipoP.setBorder(new TitledBorder(null, "Tipo de Propietario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelTipoP.setBounds(10, 386, 626, 49);
+		contentPane.add(PanelTipoP);
+		PanelTipoP.setLayout(null);
+		
+		
+		rdbtnPersona = new JRadioButton("Persona");
+		rdbtnPersona.setBounds(179, 22, 103, 21);
+		PanelTipoP.add(rdbtnPersona);
+		
+		rdbtnEmpresa = new JRadioButton("Empresa");
+		rdbtnEmpresa.setBounds(314, 22, 103, 21);
+		PanelTipoP.add(rdbtnEmpresa);
+		
         setLocationRelativeTo(null);
+           
 
 	}
+	
+   //AGREGUE ESTA FUNCION QUE VALIDA EL INICIO DE SESION
+	public static boolean validarUserNick(String user_nick) {
+        boolean tipo_usuario = false;
+        try {
+            Connection con = Conexion.getConexion();
+            CallableStatement cs = con.prepareCall("{call sp_validar_usernick(?)}");
+            cs.setString(1, user_nick);
+            ResultSet rs = cs.executeQuery();
+            if (rs.next()) {
+                tipo_usuario = rs.getBoolean("TipoUsuario");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al validar el user_nick: " + e.getMessage());
+        }
+        return tipo_usuario;
+    }
+	
+	//FUNCION PARA REGISTRAR AL USUARIO (YA SEA ADM, CLIENTE O VENDEDOR) 
+	public void insertarUsuario(String nombre,String nombre2, String apellido,String apellido2,String correo, String tel, String ced, String user_nick, String contrasena, String tipo, String tipoPropietario) {
+	    String nuevo_id = null;
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{call sp_insertar_usuario(?,?,?,?,?,?,?,?,?,?,?)}");
+	        cs.setString(1, nombre);
+	        cs.setString(2, nombre2);
+	        cs.setString(3, apellido);
+	        cs.setString(4, apellido2);
+	        cs.setString(5, correo);
+	        cs.setString(6, tel);
+	        cs.setString(7, ced);
+	        cs.setString(8, user_nick);
+	        cs.setString(9, contrasena);
+	        cs.setString(10, tipo);
+	        cs.setString(11, tipoPropietario);
+
+	        ResultSet rs = cs.executeQuery();
+	        if (rs.next()) {
+	        	nuevo_id = rs.getString("nuevo_id");
+	        }
+	    } catch (SQLException e) {
+	       // System.out.println("Error al insertar el usuario: " + e.getMessage());
+	    }
+	}
+
 
 }

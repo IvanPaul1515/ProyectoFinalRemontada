@@ -5,14 +5,24 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
+import Logico.Conexion;
+
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -98,9 +108,23 @@ public class InicioSesion extends JFrame {
 		panel.add(btnCancelar);
 		
 		JButton btnIniciarSesion = new JButton("Iniciar Sesi\u00F3n");
+		
+		//MODIFIQUE AQUI 
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String user_nick = txtUsername.getText(); 
+				String user_pass = txtContraseña.getText();
+			
+			    boolean resultado = validarInicioSesion(user_nick, user_pass);
+			    if(!resultado) {
+			        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
+			        clean ();
+			        
+			    } else {
+			        JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
+			    }
 			}
+			
 		});
 		btnIniciarSesion.setBounds(107, 305, 116, 21);
 		panel.add(btnIniciarSesion);
@@ -108,5 +132,37 @@ public class InicioSesion extends JFrame {
         setLocationRelativeTo(null);
 
 	}
+	
+	//MODIFIQUE AQUI 
+	//FUNCION PARA VALIDAR EL INICIO DE SESION 
+	
+	public boolean validarInicioSesion(String user_nick, String user_pass) {
+	    boolean resultado = false;
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{ call sp_validar_inicio_sesion(?,?,?) }");
+	        cs.setString(1, user_nick);
+	        cs.setString(2, user_pass);
+	        cs.registerOutParameter(3, java.sql.Types.BIT);
+	        cs.execute();
+	        resultado = cs.getBoolean(3);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return resultado;
+	}
+	
+	//MODIFIQUE AQUI 
+	//FUNCION LIMPIAR LOS CAMPOS 
+		
+	private void clean() {
+		txtUsername.setText("");
+		txtContraseña.setText("");
+
+	}
+
+
+
+
 
 }

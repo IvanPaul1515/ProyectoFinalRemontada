@@ -7,21 +7,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Conexion {
+	public static  Connection getConexion() {
+		String connectionUrl = "jdbc:sqlserver://localhost:1433;encrypt=false;databaseName=Sistemaarrendamiento;user=sa;password=123456";
 	
-    public static void debrequest(String str) {
-        String connectionUrl = "jdbc:sqlserver://localhost:1433;encrypt=false;databaseName=Sistemaarrendamiento;user=sa;password=123456";
-        try {
-        	Connection con = DriverManager.getConnection(connectionUrl); Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(str.intern());
-            while (rs.next()) {
-            	System.out.println(rs);
-            }
+		try {
+        	Connection con = DriverManager.getConnection(connectionUrl); 
+        	return con;
    
-            con.close();
         }
-        catch (SQLException e) {
-            e.printStackTrace();
+        catch (SQLException ex) {
+            System.out.println(ex.toString());
+            return null;
         }
-    }
+	}
 	
 }

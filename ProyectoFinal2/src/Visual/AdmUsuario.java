@@ -29,7 +29,7 @@ public class AdmUsuario extends JDialog {
 			AdmUsuario dialog = new AdmUsuario();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			Conexion.debrequest("SELECT * FROM Usuario");
+			//Conexion.debrequest("SELECT * FROM Usuario");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
