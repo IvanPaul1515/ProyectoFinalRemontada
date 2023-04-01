@@ -73,7 +73,6 @@ public class InicioSesion extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/avatardefault_92824.png")));
-		lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/usuario (2).png")));
 		lblNewLabel.setBounds(179, 33, 96, 110);
 		panel.add(lblNewLabel);
 		
