@@ -16,8 +16,10 @@ public class Principal extends JFrame {
 
     private JPanel contentPane;
     private JTextField txtBuscar;
-    private JButton btnMisPropiedades;
+    public JButton btnMisPropiedades;
     private JComboBox cmbFiltro;
+    public JButton btnIniciarSesion;
+    public JButton btnRegistrarse;
     
 
     /**
@@ -66,8 +68,8 @@ public class Principal extends JFrame {
         panel.add(txtBuscar);
         txtBuscar.setColumns(10);
         
-        btnMisPropiedades = new JButton("Mis Propiedades");
-        btnMisPropiedades.setVisible(true);
+       btnMisPropiedades = new JButton("Mis Propiedades");
+        btnMisPropiedades.setVisible(false);
 
         btnMisPropiedades.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -93,7 +95,7 @@ public class Principal extends JFrame {
         btnNewButton.setBounds(952, 32, 41, 29);
         panel.add(btnNewButton);
         
-        JButton btnIniciarSesion = new JButton("Iniciar Sesion");
+        btnIniciarSesion = new JButton("Iniciar Sesion");
         btnIniciarSesion.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		InicioSesion ini = new InicioSesion();
@@ -104,11 +106,11 @@ public class Principal extends JFrame {
         btnIniciarSesion.setBounds(1274, 1, 120, 21);
         panel.add(btnIniciarSesion);
         
-        JButton btnRegistrarse = new JButton("Registrarse ");
+       // Component btnRegistrarse;
+		btnRegistrarse = new JButton("Registrarse ");
         btnRegistrarse.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		Registrarse reg = new Registrarse();
-				/*reg.setModal(true);*/
 				reg.setVisible(true);
 		        setVisible(false);
 

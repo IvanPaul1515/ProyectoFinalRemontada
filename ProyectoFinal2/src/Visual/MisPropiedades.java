@@ -8,15 +8,22 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import Logico.Conexion;
+
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
 public class MisPropiedades extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtUsuario;
+	public JTextField txtUsuario;
 
 	/**
 	 * Launch the application.
@@ -54,7 +61,9 @@ public class MisPropiedades extends JDialog {
 		panel.add(panel_1);
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setText("Usuario");
+		txtUsuario.setEditable(false);
+		//NUEVO MODIFIQUE AQUI 
+		txtUsuario.setText(obtenerUsuarioActual());
 		txtUsuario.setBounds(686, 11, 114, 20);
 		panel.add(txtUsuario);
 		txtUsuario.setColumns(10);
@@ -93,4 +102,21 @@ public class MisPropiedades extends JDialog {
 		btnEliminar.setBounds(10, 126, 89, 23);
 		panel.add(btnEliminar);
 	}
+	
+	//NUEVO MODIFIQUE AQUI 
+	public String obtenerUsuarioActual() {
+	    String usuarioActual = "No encontrado";
+	    try {
+	        Connection con = Conexion.getConexion();
+	        Statement stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery("SELECT user_nick FROM CurrentUser");
+	        if (rs.next()) {
+	            usuarioActual = rs.getString("user_nick");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return usuarioActual;
+	}
+
 }

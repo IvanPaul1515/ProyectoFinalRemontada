@@ -6,11 +6,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
+
+import Logico.Conexion;
+
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -26,13 +33,12 @@ public class AñadirPropiedad extends JFrame {
 	private JTextField txtCalle;
 	private JTextField txtCasa;
 	private JTextField txtCuidad;
-	private JLabel lblFacilidades;
-	private JButton btnSeleccionarFa;
+	private JComboBox cmbTipo;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -43,7 +49,7 @@ public class AñadirPropiedad extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -88,35 +94,60 @@ public class AñadirPropiedad extends JFrame {
 		txtIdPropietario.setColumns(10);
 		txtIdPropietario.setBounds(350, 32, 158, 19);
 		panel.add(txtIdPropietario);
+		
+		//NUEVO MODIFIQUE AQUI 
+		MisPropiedades MisP = new MisPropiedades ();
+		String username = MisP.txtUsuario.getText();
+		txtIdPropietario.setText(username);
 	
 		lblPrecio = new JLabel("Precio:");
-		lblPrecio.setBounds(167, 88, 76, 13);
+		lblPrecio.setBounds(270, 88, 76, 13);
 		panel.add(lblPrecio);
 		
 		txtPrecio = new JTextField();
 		txtPrecio.setColumns(10);
-		txtPrecio.setBounds(212, 85, 105, 19);
+		txtPrecio.setBounds(350, 85, 105, 19);
 		panel.add(txtPrecio);
 		
-		JComboBox cmbTipo = new JComboBox();
-		cmbTipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar"}));
-		cmbTipo.setBounds(46, 83, 105, 22);
+		cmbTipo = new JComboBox();
+		cmbTipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar", "Habitacion", "Casa ", "Apartamento "}));
+		cmbTipo.setBounds(96, 83, 105, 22);
 		panel.add(cmbTipo);
 		
-		lblFacilidades = new JLabel("Facilidades:");
-		lblFacilidades.setBounds(327, 88, 76, 13);
-		panel.add(lblFacilidades);
+		//NUEVO MODIFIQUE AQUI 
+		String id_Propiedad = generarIdPropiedad();
+		txtIdPropiedad.setText(id_Propiedad);
 		
-		btnSeleccionarFa = new JButton("Seleccionar");
-		btnSeleccionarFa.setBounds(403, 83, 105, 23);
-		panel.add(btnSeleccionarFa);
-		btnSeleccionarFa.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		//NUEVO MODIFIQUE AQUI 
+
+		JButton btnAgregar = new JButton("Registrar");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String tipoPropiedad;
+				if(cmbTipo.getSelectedItem().toString().equals("Casa")) {
+					tipoPropiedad = "C";
+				} else if (cmbTipo.getSelectedItem().toString().equals("Habitacion")){
+					tipoPropiedad = "H";
+				}else {
+					tipoPropiedad = "A";
+				}
+				int precio;
+				try {
+				    precio = Integer.parseInt(txtPrecio.getText());
+				} catch (NumberFormatException e) {
+				    precio = 0; 
+				}
+				String id_ven = obtenerIdUsuario(username);
+				String calle = txtCalle.getText();
+				String casa = txtCasa.getText();
+				String ciudad = txtCuidad.getText();
+				registrarPropiedad(id_Propiedad,id_ven,tipoPropiedad, precio, calle, casa, ciudad);
+				
+				SelecFacilidades selec = new SelecFacilidades (id_Propiedad);
+				selec.setVisible(true);
+				setVisible(false);
 			}
 		});
-		
-		
-		JButton btnAgregar = new JButton("Registrar");
 		btnAgregar.setBounds(345, 286, 97, 21);
 		contentPane.add(btnAgregar);
 		
@@ -168,4 +199,57 @@ public class AñadirPropiedad extends JFrame {
         setLocationRelativeTo(null);
 
 	}
+	//NUEVO MODIFIQUE AQUI 
+	public String generarIdPropiedad() {
+	    String id_propiedad = "No generado";
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{ call sp_generar_id_propiedad() }");
+	        ResultSet rs = cs.executeQuery();
+	        if (rs.next()) {
+	            id_propiedad = rs.getString("Id_Propiedad");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return id_propiedad;
+	}
+	
+	public void registrarPropiedad(String id_P, String id_ven, String tipo, int precio, String calle, String casa, String ciudad) {
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{call sp_insertar_propiedad(?, ?, ?, ?, ?, ?, ?)}");
+	        cs.setString(1, id_P);
+	        cs.setString(2, id_ven);
+	        cs.setString(3, tipo);
+	        cs.setInt(4, precio);
+	        cs.setString(5, calle);
+	        cs.setString(6, casa);
+	        cs.setString(7, ciudad);
+	        cs.execute();
+	        System.out.println("La propiedad se registró exitosamente.");
+	    } catch (SQLException e) {
+	        System.err.println("Error al registrar la propiedad: " + e.getMessage());
+	    }
+	}
+
+	
+	public String obtenerIdUsuario(String user_nick) {
+	    String id_usuario = "No encontrado";
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{ call sp_obtener_id(?) }");
+	        cs.setString(1, user_nick);
+	        ResultSet rs = cs.executeQuery();
+	        if (rs.next()) {
+	            id_usuario = rs.getString("IdUsuario");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return id_usuario;
+	}
+
 }
+
+

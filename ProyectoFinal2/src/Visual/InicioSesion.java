@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import Logico.Conexion;
+import Logico.Propietario;
 
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
@@ -31,7 +32,7 @@ import javax.swing.JPasswordField;
 public class InicioSesion extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtUsername;
+	public JTextField txtUsername;
 	private JPasswordField txtContraseña;
 
 	/**
@@ -72,7 +73,7 @@ public class InicioSesion extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/avatardefault_92824.png")));
-		//lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/usuario (2).png")));
+		lblNewLabel.setIcon(new ImageIcon(InicioSesion.class.getResource("/Image/usuario (2).png")));
 		lblNewLabel.setBounds(179, 33, 96, 110);
 		panel.add(lblNewLabel);
 		
@@ -105,7 +106,7 @@ public class InicioSesion extends JFrame {
 		
 		JButton btnIniciarSesion = new JButton("Iniciar Sesi\u00F3n");
 		
-		//MODIFIQUE AQUI 
+		//NUEVO MODIFIQUE AQUI 
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String user_nick = txtUsername.getText(); 
@@ -118,6 +119,16 @@ public class InicioSesion extends JFrame {
 			        
 			    } else {
 			        JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
+			        guardarCurrentUser( user_nick);
+			        Principal prin = new Principal();
+			        prin.setVisible(true);
+			        setVisible(false);
+			        if(obtenerTipoUsuario(user_nick).equals("Vendedor")){
+			            prin.btnMisPropiedades.setVisible(true);
+			        }
+			        prin.btnIniciarSesion.setVisible(false);
+			        prin.btnRegistrarse.setVisible(false);
+			      
 			    }
 			}
 			
@@ -160,4 +171,59 @@ public class InicioSesion extends JFrame {
 		txtContraseña.setText("");
 
 	}
+	
+	//NUEVO MODIFIQUE AQUI 
+	public String obtenerIdUsuario(String user_nick) {
+	    String id_usuario = "No encontrado";
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{ call sp_obtener_id(?) }");
+	        cs.setString(1, user_nick);
+	        ResultSet rs = cs.executeQuery();
+	        if (rs.next()) {
+	            id_usuario = rs.getString("IdUsuario");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return id_usuario;
+	}
+
+	
+	//MODIFIQUE AQUI 
+	public String obtenerTipoUsuario(String user_nick) {
+		String idUsuario = obtenerIdUsuario(user_nick);
+	    String tipoUsuario = "No encontrado";
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{ call sp_obtener_tipo_usuario(?) }");
+	        cs.setString(1, idUsuario);
+	        ResultSet rs = cs.executeQuery();
+	        if (rs.next()) {
+	            tipoUsuario = rs.getString("TipoUsuario");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return tipoUsuario;
+	}
+	
+	//GUARDA EN UNA TABLA EL USUARIO QUE INICIE SESION 
+	public void guardarCurrentUser(String user_nick) {
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{ call sp_guardar_current_user(?) }");
+	        cs.setString(1, user_nick);
+	        cs.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
+
+
+
+
+
 }

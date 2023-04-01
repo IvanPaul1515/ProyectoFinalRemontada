@@ -296,7 +296,7 @@ public class Registrarse extends JFrame {
 	
 	//FUNCION PARA REGISTRAR AL USUARIO (YA SEA ADM, CLIENTE O VENDEDOR) 
 	public void insertarUsuario(String nombre,String nombre2, String apellido,String apellido2,String correo, String tel, String ced, String user_nick, String contrasena, String tipo, String tipoPropietario) {
-	    String nuevo_id = null;
+	   String nuevo_id = null;
 	    try {
 	        Connection con = Conexion.getConexion();
 	        CallableStatement cs = con.prepareCall("{call sp_insertar_usuario(?,?,?,?,?,?,?,?,?,?,?)}");
@@ -313,7 +313,7 @@ public class Registrarse extends JFrame {
 	        cs.setString(11, tipoPropietario);
 
 	        ResultSet rs = cs.executeQuery();
-	        if (rs.next()) {
+	       if (rs.next()) {
 	        	nuevo_id = rs.getString("nuevo_id");
 	        }
 	    } catch (SQLException e) {
