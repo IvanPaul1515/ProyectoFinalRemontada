@@ -19,11 +19,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class MisPropiedades extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	public JTextField txtUsuario;
+	private JTable tblMisPropiedades;
 
 	/**
 	 * Launch the application.
@@ -59,6 +62,13 @@ public class MisPropiedades extends JDialog {
 		panel_1.setBorder(new TitledBorder(null, "Listado de Propiedades", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(0, 172, 810, 278);
 		panel.add(panel_1);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel_1.add(scrollPane, BorderLayout.CENTER);
+		
+		tblMisPropiedades = new JTable();
+		scrollPane.setViewportView(tblMisPropiedades);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setEditable(false);
@@ -118,5 +128,6 @@ public class MisPropiedades extends JDialog {
 	    }
 	    return usuarioActual;
 	}
-
 }
+
+
