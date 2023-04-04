@@ -262,3 +262,36 @@ END;
 
 EXEC sp_validar_usernick 'jcperez';
 
+CREATE OR ALTER PROCEDURE sp_buscarpropiedad_byId (
+    @user_id VARCHAR(10)
+)
+AS
+BEGIN
+SELECT P.Id_Propiedad, P.Tipo, P.Precio, P.Estado, PD.Casa+' ' +  Calle+ ' ' + Ciudad as Direccion FROM Propiedad as P JOIN Propiedad_Dir as PD ON PD.Id_Propiedad = P.Id_Propiedad WHERE P.Id_Ven = @user_id;
+END;
+
+EXEC sp_buscarpropiedad_byId '10001';
+
+
+
+CREATE OR ALTER PROCEDURE sp_EliminarPropiedad (
+    @propiedad_id VARCHAR(10)
+)
+AS
+BEGIN
+DELETE FROM Imagen WHERE Id_Propiedad = @propiedad_id;
+DELETE FROM Propiedad_Faci WHERE Id_Propiedad = @propiedad_id;
+DELETE FROM Propiedad_Dir WHERE Id_Propiedad = @propiedad_id;
+DELETE FROM Propiedad WHERE Id_Propiedad = @propiedad_id;
+END;
+EXEC sp_EliminarPropiedad '';
+
+
+CREATE OR ALTER PROCEDURE sp_eliminar_usuarioF(
+    @id_usuario VARCHAR(10))
+AS
+BEGIN
+	DELETE FROM Usuario WHERE ID_User = @id_usuario;
+END;
+
+
