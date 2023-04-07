@@ -34,7 +34,7 @@ public class MisPropiedades extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private DefaultTableModel model;
 	private Object row[];
-	private String actualUs = "10001";
+	private String actualUs = obtenerUsuarioActual();
 	private String idPropiedad = null;
 	private JButton btnDel;
 	private JButton btnMod;
@@ -136,6 +136,9 @@ public class MisPropiedades extends JDialog {
 		btnMod.setEnabled(false);
 		btnMod.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				modificarPropiedad ModP = new modificarPropiedad(actualUs,idPropiedad);
+				ModP.setVisible(true);
+				loadTable();
 			}
 		});
 		btnMod.setBounds(10, 92, 89, 23);
@@ -165,21 +168,23 @@ public class MisPropiedades extends JDialog {
 	}
 	
 	//NUEVO MODIFIQUE AQUI 
-	/*public String obtenerUsuarioActual() {
+	
+	public String obtenerUsuarioActual() {
 	    String usuarioActual = "No encontrado";
 	    try {
 	        Connection con = Conexion.getConexion();
 	        Statement stmt = con.createStatement();
-	        ResultSet rs = stmt.executeQuery("SELECT user_nick FROM CurrentUser");
+	        ResultSet rs = stmt.executeQuery("SELECT ID_User FROM CurrentUser");
 	        if (rs.next()) {
-	            usuarioActual = rs.getString("user_nick");
+	            usuarioActual = rs.getString("ID_User");
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	    return usuarioActual;
 	}
-	*/
+    
+	
 	private void delPropiedad(String idDel) {
 		try {
 			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
