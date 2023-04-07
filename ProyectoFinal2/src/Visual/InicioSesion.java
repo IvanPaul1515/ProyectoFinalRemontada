@@ -117,14 +117,11 @@ public class InicioSesion extends JFrame {
 			        clean ();
 			        
 			    } else {
-			        JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
 			        guardarCurrentUser( user_nick);
 			        Principal prin = new Principal();
 			        prin.setVisible(true);
 			        setVisible(false);
-			        if(obtenerTipoUsuario(user_nick).equals("Vendedor")){
-			            prin.btnMisPropiedades.setVisible(true);
-			        }
+			   
 			        prin.btnIniciarSesion.setVisible(false);
 			        prin.btnRegistrarse.setVisible(false);
 			      
@@ -183,29 +180,12 @@ public class InicioSesion extends JFrame {
 	            id_usuario = rs.getString("IdUsuario");
 	        }
 	    } catch (SQLException e) {
+	    	System.out.println("Aqui ta1");
 	        e.printStackTrace();
 	    }
 	    return id_usuario;
 	}
 
-	
-	//MODIFIQUE AQUI 
-	public String obtenerTipoUsuario(String user_nick) {
-		String idUsuario = obtenerIdUsuario(user_nick);
-	    String tipoUsuario = "No encontrado";
-	    try {
-	        Connection con = Conexion.getConexion();
-	        CallableStatement cs = con.prepareCall("{ call sp_obtener_tipo_usuario(?) }");
-	        cs.setString(1, idUsuario);
-	        ResultSet rs = cs.executeQuery();
-	        if (rs.next()) {
-	            tipoUsuario = rs.getString("TipoUsuario");
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return tipoUsuario;
-	}
 	
 	//GUARDA EN UNA TABLA EL USUARIO QUE INICIE SESION 
 	public void guardarCurrentUser(String user_nick) {
@@ -215,6 +195,7 @@ public class InicioSesion extends JFrame {
 	        cs.setString(1, user_nick);
 	        cs.executeUpdate();
 	    } catch (SQLException e) {
+	    	System.out.println("Aqui ta3");
 	        e.printStackTrace();
 	    }
 	}

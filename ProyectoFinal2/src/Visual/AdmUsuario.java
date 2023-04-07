@@ -1,174 +1,255 @@
 package Visual;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.Statement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.awt.EventQueue;
 
-import javax.naming.directory.InvalidSearchControlsException;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import javax.swing.border.TitledBorder;
 
 import Logico.Conexion;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.Toolkit;
 
-public class AdmUsuario extends JDialog {
+public class AñadirPropiedad extends JFrame {
 
-	private final JPanel contentPanel = new JPanel();
-	private JTable table;
-	private static final long serialVersionUID = 1L;
-	private DefaultTableModel model;
-	private Object row[];
-	private String userSelect = null;
-	private JButton btnMod;
-	private JButton btnDel;
-	private boolean usuarioSel = false;
-	private String idUString = null;
+	private JPanel contentPane;
+	private JTextField txtIdPropiedad;
+	private JTextField txtIdPropietario;
+	private JLabel lblPrecio;
+	private JTextField txtPrecio;
+	private JTextField txtCalle;
+	private JTextField txtCasa;
+	private JTextField txtCuidad;
+	private JComboBox cmbTipo;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
-			AdmUsuario dialog = new AdmUsuario();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AñadirPropiedad frame = new AñadirPropiedad();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
-	 * Create the dialog.
+	 * Create the frame.
 	 */
-	public AdmUsuario() {
-		setTitle("Administrar Usuario");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AdmUsuario.class.getResource("/Image/repair.png")));
-		setBounds(100, 100, 850, 600);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new BorderLayout(0, 0));
-		{
-			JScrollPane scrollPane = new JScrollPane();
-			contentPanel.add(scrollPane, BorderLayout.CENTER);
-			{
-				table = new JTable();
-				table.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent arg0) {
-						int row = 0;
-						row = table.getSelectedRow();
-						if(row > -1) {
-							btnDel.setEnabled(true);
-							btnMod.setEnabled(true);
-							usuarioSel = true;
-							int column = 0;
-							int rowr = table.getSelectedRow();
-							String value = table.getModel().getValueAt(rowr, column).toString();
-							idUString = value;
-							//medicoselect = (Medico) Clinica.getInstance().buscarUsuarioByCedula(table.getValueAt(row, 0).toString());
+	public AñadirPropiedad() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AñadirPropiedad.class.getResource("/Image/homepage_home_house_icon_153873.png")));
+		setTitle("A\u00F1adir Propiedad:");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 572, 352);
+		contentPane = new JPanel();
+		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-						}
-					}
-				});
-				String headers[] = {"Id","Nombre","Correo","Telefono","Cedula","Nick","Password","Clase"};
-				model = new DefaultTableModel();
-				model.setColumnIdentifiers(headers);
-				table.setModel(model);
-				scrollPane.setViewportView(table);
-			}
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				btnDel = new JButton("Eliminar");
-				btnDel.setEnabled(false);
-				btnDel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						//--------------------------------> aqui voy
-						if(usuarioSel != false) {
-							int option = JOptionPane.showConfirmDialog(null, "Está seguro de eliminar el usuario: "+ idUString, "Confirmación",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-							if(option == JOptionPane.YES_OPTION){
-								delUser(idUString);
-								loadTable();
-							}
-						}
-					}
-				});
-				{
-					btnMod = new JButton("Modificar");
-					btnMod.setEnabled(false);
-					buttonPane.add(btnMod);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 10, 534, 135);
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Informaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblPNombre = new JLabel("Id Propiedad:");
+		lblPNombre.setBounds(10, 36, 76, 13);
+		panel.add(lblPNombre);
+		
+		JLabel lblVendedor = new JLabel("Propietario:");
+		lblVendedor.setBounds(270, 36, 66, 13);
+		panel.add(lblVendedor);
+		
+		JLabel lblTipo = new JLabel("Tipo:\r\n");
+		lblTipo.setBounds(11, 88, 76, 13);
+		panel.add(lblTipo);
+		
+		txtIdPropiedad = new JTextField();
+		txtIdPropiedad.setEditable(false);
+		txtIdPropiedad.setBounds(96, 33, 158, 19);
+		panel.add(txtIdPropiedad);
+		txtIdPropiedad.setColumns(10);
+		
+		txtIdPropietario = new JTextField();
+		txtIdPropietario.setEditable(false);
+		txtIdPropietario.setColumns(10);
+		txtIdPropietario.setBounds(350, 32, 158, 19);
+		panel.add(txtIdPropietario);
+		
+		//NUEVO MODIFIQUE AQUI 
+		MisPropiedades MisP = new MisPropiedades ();
+		String username = MisP.txtUsuario.getText();
+		txtIdPropietario.setText(username);
+	
+		lblPrecio = new JLabel("Precio:");
+		lblPrecio.setBounds(270, 88, 76, 13);
+		panel.add(lblPrecio);
+		
+		txtPrecio = new JTextField();
+		txtPrecio.setColumns(10);
+		txtPrecio.setBounds(350, 85, 105, 19);
+		panel.add(txtPrecio);
+		
+		cmbTipo = new JComboBox();
+		cmbTipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar", "Habitacion", "Casa ", "Apartamento "}));
+		cmbTipo.setBounds(96, 83, 105, 22);
+		panel.add(cmbTipo);
+		
+		//NUEVO MODIFIQUE AQUI 
+		String id_Propiedad = generarIdPropiedad();
+		txtIdPropiedad.setText(id_Propiedad);
+		
+		//NUEVO MODIFIQUE AQUI 
+
+		JButton btnAgregar = new JButton("Registrar");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String tipoPropiedad;
+				if(cmbTipo.getSelectedItem().toString().equals("Casa")) {
+					tipoPropiedad = "C";
+				} else if (cmbTipo.getSelectedItem().toString().equals("Habitacion")){
+					tipoPropiedad = "H";
+				}else {
+					tipoPropiedad = "A";
 				}
-				buttonPane.add(btnDel);
+				int precio;
+				try {
+				    precio = Integer.parseInt(txtPrecio.getText());
+				} catch (NumberFormatException e) {
+				    precio = 0; 
+				}
+				String id_ven = obtenerIdUsuario(username);
+				String calle = txtCalle.getText();
+				String casa = txtCasa.getText();
+				String ciudad = txtCuidad.getText();
+				registrarPropiedad(id_Propiedad,id_ven,tipoPropiedad, precio, calle, casa, ciudad);
+				
+				SelecFacilidades selec = new SelecFacilidades (id_Propiedad);
+				selec.setVisible(true);
+				setVisible(false);
 			}
-			{
-				JButton okButton = new JButton("Aceptar");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						dispose();
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+		});
+		btnAgregar.setBounds(345, 286, 97, 21);
+		contentPane.add(btnAgregar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MisPropiedades MisPropie = new MisPropiedades();
+				MisPropie.setVisible(true);
+		        setVisible(false);
 			}
-		}
-		loadTable();
-	}
-	
-	private void delUser(String idDel) {
-		try {
-			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
-			String consulta = "EXEC sp_eliminar_usuarioF '"+ idDel +"';";
-			sqlStatement.executeQuery(consulta);
-		} catch (SQLException ex) {
-			if(ex.getErrorCode() == 0) {
-				JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
-			}else {
-			JOptionPane.showMessageDialog(null, ex.toString());
-			}
-		}
-	}
-	
-	private void loadTable() {
-		model.setRowCount(0);
-		row = new Object[model.getColumnCount()];
-		try {
-			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
-			String consulta = "SELECT * FROM Usuario";
-			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
-			while(resultadoResultSet.next()) {
-				row[0] = resultadoResultSet.getString("ID_User");
-				row[1] = resultadoResultSet.getString("Nom1")+" " + resultadoResultSet.getString("Ape1");
-				row[2] =resultadoResultSet.getString("Correo");
-				row[3] = resultadoResultSet.getString("Telefono");
-				row[4] = resultadoResultSet.getString("cedula");
-				row[5] = resultadoResultSet.getString("user_nick");
-				row[6] =resultadoResultSet.getString("user_pass");
-				row[7] = resultadoResultSet.getString("Clase");
-				model.addRow(row);
-			}
-			
-		} catch (SQLException  ex) {
-			JOptionPane.showMessageDialog(null, ex.toString());
-		}
+		});
+		btnCancelar.setForeground(new Color(255, 0, 0));
+		btnCancelar.setBounds(452, 286, 85, 21);
+		contentPane.add(btnCancelar);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Dirreci\u00F3n:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(10, 157, 534, 129);
+		contentPane.add(panel_1);
+		
+		JLabel lblPCalle = new JLabel("Calle:");
+		lblPCalle.setBounds(10, 36, 50, 13);
+		panel_1.add(lblPCalle);
+		
+		JLabel lblCasa = new JLabel("Casa:");
+		lblCasa.setBounds(275, 36, 50, 13);
+		panel_1.add(lblCasa);
+		
+		JLabel lblCuidad = new JLabel("Cuidad:\r\n");
+		lblCuidad.setBounds(10, 88, 50, 13);
+		panel_1.add(lblCuidad);
+		
+		txtCalle = new JTextField();
+		txtCalle.setColumns(10);
+		txtCalle.setBounds(85, 32, 158, 19);
+		panel_1.add(txtCalle);
+		
+		txtCasa = new JTextField();
+		txtCasa.setColumns(10);
+		txtCasa.setBounds(350, 32, 158, 19);
+		panel_1.add(txtCasa);
+		
+		txtCuidad = new JTextField();
+		txtCuidad.setColumns(10);
+		txtCuidad.setBounds(85, 84, 158, 19);
+		panel_1.add(txtCuidad);
+		
+        setLocationRelativeTo(null);
 
+	}
+	//NUEVO MODIFIQUE AQUI 
+	public String generarIdPropiedad() {
+	    String id_propiedad = "No generado";
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{ call sp_generar_id_propiedad() }");
+	        ResultSet rs = cs.executeQuery();
+	        if (rs.next()) {
+	            id_propiedad = rs.getString("Id_Propiedad");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return id_propiedad;
+	}
+	
+	public void registrarPropiedad(String id_P, String id_ven, String tipo, int precio, String calle, String casa, String ciudad) {
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{call sp_insertar_propiedad(?, ?, ?, ?, ?, ?, ?)}");
+	        cs.setString(1, id_P);
+	        cs.setString(2, id_ven);
+	        cs.setString(3, tipo);
+	        cs.setInt(4, precio);
+	        cs.setString(5, calle);
+	        cs.setString(6, casa);
+	        cs.setString(7, ciudad);
+	        cs.execute();
+	        System.out.println("La propiedad se registró exitosamente.");
+	    } catch (SQLException e) {
+	        System.err.println("Error al registrar la propiedad: " + e.getMessage());
+	    }
+	}
+
+	
+	public String obtenerIdUsuario(String user_nick) {
+	    String id_usuario = "No encontrado";
+	    try {
+	        Connection con = Conexion.getConexion();
+	        CallableStatement cs = con.prepareCall("{ call sp_obtener_id(?) }");
+	        cs.setString(1, user_nick);
+	        ResultSet rs = cs.executeQuery();
+	        if (rs.next()) {
+	            id_usuario = rs.getString("IdUsuario");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return id_usuario;
 	}
 
 }
+
+
