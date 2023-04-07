@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Conexion {
 	public static  Connection getConexion() {
-		String connectionUrl = "jdbc:sqlserver://localhost:1433;encrypt=false;databaseName=Sistemaarrendamiento;user=sa;password=123456";
+		String connectionUrl = "jdbc:sqlserver://localhost:1433;encrypt=false;databaseName=SistemaArrendamiento2;user=sa;password=123456";
 	
 		try {
         	Connection con = DriverManager.getConnection(connectionUrl); 
