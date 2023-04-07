@@ -6,7 +6,19 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+
+import Logico.Conexion;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
@@ -16,10 +28,10 @@ public class Principal extends JFrame {
 
     private JPanel contentPane;
     private JTextField txtBuscar;
-    public JButton btnMisPropiedades;
     private JComboBox cmbFiltro;
     public JButton btnIniciarSesion;
     public JButton btnRegistrarse;
+    private JButton btnMisPropiedades;
     
 
     /**
@@ -44,6 +56,24 @@ public class Principal extends JFrame {
      */
     public Principal() {
     	setTitle("YouJevaRent");
+    	
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				try {
+					java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+					String consulta = "EXEC sp_eliminar_CurrentUser;";
+					sqlStatement.executeQuery(consulta);
+				} catch (SQLException ex) {
+					if(ex.getErrorCode() == 0) {
+						JOptionPane.showMessageDialog(null, "Secion cerrada");
+					}else {
+					JOptionPane.showMessageDialog(null, ex.toString());
+					}
+				}
+			}
+		});
+
+    	
     	setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Image/homepage_home_house_icon_153873.png")));
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,17 +99,17 @@ public class Principal extends JFrame {
         txtBuscar.setColumns(10);
         
        btnMisPropiedades = new JButton("Mis Propiedades");
-        btnMisPropiedades.setVisible(false);
 
         btnMisPropiedades.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		MisPropiedades MisPropie = new MisPropiedades();
         		MisPropie.setVisible(true);
-		        setVisible(false);
+		        //setVisible(false);
         	}
         });
-        btnMisPropiedades.setBounds(0, 0, 120, 23);
+        btnMisPropiedades.setBounds(0, 0, 151, 23);
         panel.add(btnMisPropiedades);
+        mostrarbtn(obtenerUsuarioActual());
         cmbFiltro = new JComboBox();
         cmbFiltro.setModel(new DefaultComboBoxModel(new String[] {"Filtrar...", "Recientes", "Disponibles", "Precio", "Mas Rentadas", "Casa", "Habitaci\u00F3n", "Apartamento "}));
         cmbFiltro.setToolTipText("");
@@ -112,7 +142,7 @@ public class Principal extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		Registrarse reg = new Registrarse();
 				reg.setVisible(true);
-		        setVisible(false);
+		        //setVisible(false);
 
         	}
         });
@@ -133,4 +163,39 @@ public class Principal extends JFrame {
 
         setVisible(true);
     }
+    private void mostrarbtn(String Id) {
+    	
+    	try {
+	        Connection con = Conexion.getConexion();
+	        Statement stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery("EXEC sp_obtener_tipo_usuarioVendedor '"+ Id +"';");
+	        if (rs.next()) {
+	             if( rs.getString("TipoUsuario").equals("1")) {
+	            	 System.out.println("Funciona ID " + Id);
+	            	 btnMisPropiedades.setVisible(true);
+	             }else {
+	            	 btnMisPropiedades.setVisible(false);
+	             }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+    	
+    }
+	public String obtenerUsuarioActual() {
+	    String usuarioActual = "No encontrado";
+	    try {
+	        Connection con = Conexion.getConexion();
+	        Statement stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery("SELECT ID_User FROM CurrentUser");
+	        if (rs.next()) {
+	            usuarioActual = rs.getString("ID_User");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return usuarioActual;
+	}
+    
 }
+
