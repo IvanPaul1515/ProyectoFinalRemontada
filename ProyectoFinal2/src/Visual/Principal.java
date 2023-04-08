@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import Logico.Conexion;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,6 +25,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Principal extends JFrame {
 
@@ -32,6 +36,9 @@ public class Principal extends JFrame {
     public JButton btnIniciarSesion;
     public JButton btnRegistrarse;
     private JButton btnMisPropiedades;
+    private JTable tblPropiedadesRent;
+    private DefaultTableModel model;
+    private Object row[];
     
 
     /**
@@ -91,6 +98,29 @@ public class Principal extends JFrame {
         panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         panel_1.setBounds(10, 286, 1374, 434);
         panel.add(panel_1);
+        panel_1.setLayout(new BorderLayout(0, 0));
+        
+        JScrollPane scrollPane = new JScrollPane();
+        String headers[] = {"Id","Tipo","Estado","Direccion","Precio"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(headers);
+		
+		tblPropiedadesRent.setModel(model);
+        panel_1.add(scrollPane, BorderLayout.CENTER);
+        
+        tblPropiedadesRent = new JTable();
+        tblPropiedadesRent.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		
+        	}
+        });
+        scrollPane.setViewportView(tblPropiedadesRent);
+        String headers1[] = {"Id","Tipo","Estado","Direccion","Precio"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(headers1);
+		
+		tblPropiedadesRent.setModel(model);
         
         txtBuscar = new JTextField();
         txtBuscar.setText("Buscar Ciudad...");
@@ -162,6 +192,7 @@ public class Principal extends JFrame {
         setLocationRelativeTo(null);
 
         setVisible(true);
+        loadTable();
     }
     private void mostrarbtn(String Id) {
     	
@@ -196,6 +227,36 @@ public class Principal extends JFrame {
 	    }
 	    return usuarioActual;
 	}
-    
+
+	
+	private void loadTable() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "\"SELECT * FROM Propiedad ORDER BY Id_Propiedad DESC";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Id_Propiedad");
+				row[1] = resultadoResultSet.getString("Tipo");
+				row[2] =resultadoResultSet.getString("Estado");
+				row[3] = resultadoResultSet.getString("Direccion");
+				row[4] =  " $ "+ resultadoResultSet.getString("Precio");
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
+	}
+	
 }
+
+
+
+    
+
+
+
 
