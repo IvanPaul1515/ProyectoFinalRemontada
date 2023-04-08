@@ -366,4 +366,32 @@ END;
 
 EXEC sp_eliminar_CurrentUser;
 
+--------------(Agregado Nuevo Higinio)--------------------->>>>
 
+CREATE OR ALTER PROCEDURE sp_CargarPropiedadParaRent (
+    @propiedad_id VARCHAR(10)
+)
+AS
+BEGIN
+    SELECT P.Precio, PD.Casa, PD.Calle, PD.Ciudad, P.Estado, U.Nom1 + ' ' + U.Ape1 AS Nombre_Vendedor
+    FROM Propiedad AS P 
+    JOIN Propiedad_Dir AS PD ON PD.Id_Propiedad = P.Id_Propiedad
+    JOIN Vendedor AS V ON V.Id_Ven = P.Id_Ven
+    JOIN Usuario AS U ON U.ID_User = V.Id_Ven
+    WHERE P.Id_Propiedad = @propiedad_id;
+END;
+
+EXEC sp_CargarPropiedadParaRent 'PROP001'
+
+CREATE OR ALTER PROCEDURE sp_CargarFacilidades (
+    @propiedad_id VARCHAR(10)
+)
+AS
+BEGIN
+    SELECT F.Facilidad
+    FROM Propiedad_Faci AS PF 
+    JOIN Facilidad AS F ON F.Id_Facilidad = PF.Id_Facilidad
+    WHERE PF.Id_Propiedad = @propiedad_id;
+END;
+
+EXEC sp_CargarFacilidades 'PROP001'

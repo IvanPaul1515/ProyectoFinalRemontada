@@ -42,6 +42,7 @@ public class MisPropiedades extends JDialog {
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		try {
 			MisPropiedades dialog = new MisPropiedades();

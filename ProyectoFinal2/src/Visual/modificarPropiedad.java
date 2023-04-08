@@ -23,9 +23,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import javax.xml.bind.ParseConversionEvent;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 import Logico.Conexion;
 

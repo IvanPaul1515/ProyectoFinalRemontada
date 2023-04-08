@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
@@ -39,6 +40,7 @@ public class Principal extends JFrame {
     private JTable tblPropiedadesRent;
     private DefaultTableModel model;
     private Object row[];
+    private String idPropiedad = null;
     
 
     /**
@@ -101,18 +103,19 @@ public class Principal extends JFrame {
         panel_1.setLayout(new BorderLayout(0, 0));
         
         JScrollPane scrollPane = new JScrollPane();
-        String headers[] = {"Id","Tipo","Estado","Direccion","Precio"};
-		model = new DefaultTableModel();
-		model.setColumnIdentifiers(headers);
-		
-		tblPropiedadesRent.setModel(model);
         panel_1.add(scrollPane, BorderLayout.CENTER);
         
         tblPropiedadesRent = new JTable();
         tblPropiedadesRent.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		
+        		int column = 0;
+				int rowr = tblPropiedadesRent.getSelectedRow();
+        		String value = tblPropiedadesRent.getModel().getValueAt(rowr, column).toString();
+				idPropiedad = value;
+        		  Propiedad selecPropiedad = new Propiedad(idPropiedad) ;
+        		  selecPropiedad.setModal(true);
+        		  selecPropiedad.setVisible(true);
         	}
         });
         scrollPane.setViewportView(tblPropiedadesRent);
@@ -234,7 +237,10 @@ public class Principal extends JFrame {
 		row = new Object[model.getColumnCount()];
 		try {
 			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
-			String consulta = "\"SELECT * FROM Propiedad ORDER BY Id_Propiedad DESC";
+			String consulta = "SELECT p.Id_Propiedad, p.Tipo, p.Estado, CONCAT(d.Calle, ' ', d.Casa, ', ', d.Ciudad) AS Direccion, p.Precio\r\n"
+					+ "FROM Propiedad p\r\n"
+					+ "JOIN Propiedad_Dir d ON p.Id_Propiedad = d.Id_Propiedad\r\n"
+					+ "ORDER BY p.Id_Propiedad DESC;";
 			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
 			while(resultadoResultSet.next()) {
 				row[0] = resultadoResultSet.getString("Id_Propiedad");
@@ -250,6 +256,7 @@ public class Principal extends JFrame {
 		}
 
 	}
+	
 	
 }
 
