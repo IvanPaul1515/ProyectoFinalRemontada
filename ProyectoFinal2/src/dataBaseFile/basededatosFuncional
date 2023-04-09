@@ -395,3 +395,15 @@ BEGIN
 END;
 
 EXEC sp_CargarFacilidades 'PROP001'
+
+CREATE PROCEDURE ObtenerRetroalimentacion
+    @id_propiedad varchar(10)
+AS
+BEGIN
+    SELECT c.Nom1 + ' ' + c.Ape1 AS 'Nombre del Cliente', r.Comentario
+    FROM Retroalimentacion r
+    INNER JOIN Cliente cl ON r.Id_Cliente = cl.Id_Client
+    INNER JOIN Usuario c ON cl.Id_Client = c.ID_User
+    WHERE r.Id_Propiedad = @id_propiedad
+END
+EXEC ObtenerRetroalimentacion 'PROP001'

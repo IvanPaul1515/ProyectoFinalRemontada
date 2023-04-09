@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import Logico.Conexion;
 
@@ -31,8 +32,10 @@ public class Propiedad extends JDialog {
 	private JTextField txtPropietario;
 	private JTextField txtEstado;
 	private JTextField txtPrecio;
-	private JTable table;
+	private JTable tblComentarios;
 	private JTextField txtPropiedad;
+    private DefaultTableModel model;
+    private Object row[];
 
 	/**
 	 * Launch the application.
@@ -144,12 +147,17 @@ public class Propiedad extends JDialog {
 		panel_1_1.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_1_1.add(scrollPane, BorderLayout.CENTER);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		tblComentarios = new JTable();
+		scrollPane.setViewportView(tblComentarios);
+		String headers1[] = {"CLiente","Comentario"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(headers1);
+		tblComentarios.setModel(model);
 		
 		JLabel lblComentario = new JLabel("Comentarios");
 		lblComentario.setBounds(10, 191, 79, 14);
@@ -158,6 +166,7 @@ public class Propiedad extends JDialog {
 			setLocationRelativeTo(null);
 		}
 		llenarCampos(idSelPropiedad);
+		loadTable(idSelPropiedad);
 	}
 	
 	private void llenarCampos(String idPropiedad) {
@@ -181,5 +190,24 @@ public class Propiedad extends JDialog {
 			JOptionPane.showMessageDialog(null, ex.toString());
 			
 		}
+	}
+	
+	private void loadTable(String IdPropiedad) {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "EXEC ObtenerRetroalimentacion "+ IdPropiedad +" ;";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Nombre del Cliente");
+				row[1] = resultadoResultSet.getString("Comentario");			
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
 	}
 }
