@@ -144,7 +144,35 @@ public class Principal extends JFrame {
         panel.add(btnMisPropiedades);
         mostrarbtn(obtenerUsuarioActual());
         cmbFiltro = new JComboBox();
-        cmbFiltro.setModel(new DefaultComboBoxModel(new String[] {"Filtrar...", "Recientes", "Disponibles", "Precio", "Mas Rentadas", "Casa", "Habitaci\u00F3n", "Apartamento "}));
+        cmbFiltro.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		String opcionSeleccionada = cmbFiltro.getSelectedItem().toString();
+        		
+        		if (opcionSeleccionada.equals("Todos")) {
+        			loadTableTodos();
+                    
+                } else if (opcionSeleccionada.equals("Disponibles")) {
+                	loadTableDisponibles();
+                	
+                } else if (opcionSeleccionada.equals("Precio Desendente")) {
+                	loadTablePreciodDescendente();
+                	
+                } else if (opcionSeleccionada.equals("Precio Ascendente")) {
+                	loadTablePreciodAscendente(); 
+
+                } else if (opcionSeleccionada.equals("Casas")) {
+                	loadTableCasas();
+                	
+                } else if (opcionSeleccionada.equals("Apartamento")) {
+                	loadTablePreciodApartamento();
+                	
+                } else if (opcionSeleccionada.equals("Lote")) {
+                	loadTableLote();
+                }
+        		
+        	}
+        });
+        cmbFiltro.setModel(new DefaultComboBoxModel(new String[] {"Filtrar...", "Todos", "Disponibles", "Precio Ascendente", "Precio Desendente", "Casas", "Apartamento", "Lote"}));
         cmbFiltro.setToolTipText("");
         cmbFiltro.setBounds(10, 253, 120, 22);
         panel.add(cmbFiltro);
@@ -195,7 +223,7 @@ public class Principal extends JFrame {
         setLocationRelativeTo(null);
 
         setVisible(true);
-        loadTable();
+        loadTableTodos();
     }
     private void mostrarbtn(String Id) {
     	
@@ -232,7 +260,7 @@ public class Principal extends JFrame {
 	}
 
 	
-	private void loadTable() {
+	private void loadTableTodos() {
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
 		try {
@@ -256,8 +284,155 @@ public class Principal extends JFrame {
 		}
 
 	}
+	private void loadTableDisponibles() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "SELECT p.Id_Propiedad, p.Tipo, p.Estado, CONCAT(d.Calle, ' ', d.Casa, ', ', d.Ciudad) AS Direccion, p.Precio\r\n"
+					+ "FROM Propiedad p\r\n"
+					+ "JOIN Propiedad_Dir d ON p.Id_Propiedad = d.Id_Propiedad\r\n"
+					+ "WHERE p.Estado = 'A'\r\n"
+					+ "ORDER BY p.Id_Propiedad DESC;";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Id_Propiedad");
+				row[1] = resultadoResultSet.getString("Tipo");
+				row[2] =resultadoResultSet.getString("Estado");
+				row[3] = resultadoResultSet.getString("Direccion");
+				row[4] =  " $ "+ resultadoResultSet.getString("Precio");
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
+	}
 	
-	
+	private void loadTablePreciodDescendente() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "SELECT p.Id_Propiedad, p.Tipo, p.Estado, CONCAT(d.Calle, ' ', d.Casa, ', ', d.Ciudad) AS Direccion, p.Precio\r\n"
+					+ "FROM Propiedad p\r\n"
+					+ "JOIN Propiedad_Dir d ON p.Id_Propiedad = d.Id_Propiedad\r\n"
+					+ "ORDER BY p.Precio ASC;";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Id_Propiedad");
+				row[1] = resultadoResultSet.getString("Tipo");
+				row[2] =resultadoResultSet.getString("Estado");
+				row[3] = resultadoResultSet.getString("Direccion");
+				row[4] =  " $ "+ resultadoResultSet.getString("Precio");
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
+	}
+	private void loadTablePreciodAscendente() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "SELECT p.Id_Propiedad, p.Tipo, p.Estado, CONCAT(d.Calle, ' ', d.Casa, ', ', d.Ciudad) AS Direccion, p.Precio\r\n"
+					+ "FROM Propiedad p\r\n"
+					+ "JOIN Propiedad_Dir d ON p.Id_Propiedad = d.Id_Propiedad\r\n"
+					+ "ORDER BY p.Precio DESC;";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Id_Propiedad");
+				row[1] = resultadoResultSet.getString("Tipo");
+				row[2] =resultadoResultSet.getString("Estado");
+				row[3] = resultadoResultSet.getString("Direccion");
+				row[4] =  " $ "+ resultadoResultSet.getString("Precio");
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
+	}
+	private void loadTablePreciodApartamento() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "SELECT p.Id_Propiedad, p.Tipo, p.Estado, CONCAT(d.Calle, ' ', d.Casa, ', ', d.Ciudad) AS Direccion, p.Precio\r\n"
+					+ "FROM Propiedad p\r\n"
+					+ "JOIN Propiedad_Dir d ON p.Id_Propiedad = d.Id_Propiedad\r\n"
+					+ "WHERE p.Tipo = 'APTO'\r\n"
+					+ "ORDER BY p.Id_Propiedad DESC;";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Id_Propiedad");
+				row[1] = resultadoResultSet.getString("Tipo");
+				row[2] =resultadoResultSet.getString("Estado");
+				row[3] = resultadoResultSet.getString("Direccion");
+				row[4] =  " $ "+ resultadoResultSet.getString("Precio");
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
+	}	
+	private void loadTableCasas() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "SELECT p.Id_Propiedad, p.Tipo, p.Estado, CONCAT(d.Calle, ' ', d.Casa, ', ', d.Ciudad) AS Direccion, p.Precio\r\n"
+					+ "FROM Propiedad p\r\n"
+					+ "JOIN Propiedad_Dir d ON p.Id_Propiedad = d.Id_Propiedad\r\n"
+					+ "WHERE p.Tipo = 'CASA'\r\n"
+					+ "ORDER BY p.Id_Propiedad DESC;";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Id_Propiedad");
+				row[1] = resultadoResultSet.getString("Tipo");
+				row[2] =resultadoResultSet.getString("Estado");
+				row[3] = resultadoResultSet.getString("Direccion");
+				row[4] =  " $ "+ resultadoResultSet.getString("Precio");
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
+	}
+	private void loadTableLote() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "SELECT p.Id_Propiedad, p.Tipo, p.Estado, CONCAT(d.Calle, ' ', d.Casa, ', ', d.Ciudad) AS Direccion, p.Precio\r\n"
+					+ "FROM Propiedad p\r\n"
+					+ "JOIN Propiedad_Dir d ON p.Id_Propiedad = d.Id_Propiedad\r\n"
+					+ "WHERE p.Tipo = 'LOTE'\r\n"
+					+ "ORDER BY p.Id_Propiedad DESC;";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Id_Propiedad");
+				row[1] = resultadoResultSet.getString("Tipo");
+				row[2] =resultadoResultSet.getString("Estado");
+				row[3] = resultadoResultSet.getString("Direccion");
+				row[4] =  " $ "+ resultadoResultSet.getString("Precio");
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
+	}
 }
 
 

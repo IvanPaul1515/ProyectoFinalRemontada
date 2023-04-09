@@ -15,14 +15,10 @@ CREATE TABLE Usuario(
 	Clase varchar(5)
 );
 
-
-
-
 CREATE TABLE Cliente (
 	Id_Client varchar (10) NOT NULL PRIMARY KEY, 
 	FOREIGN KEY (Id_Client) REFERENCES Usuario(ID_User)
 );
-
 
 CREATE TABLE Vendedor (
 	Id_Ven varchar (10) NOT NULL PRIMARY KEY, 
@@ -30,12 +26,10 @@ CREATE TABLE Vendedor (
 	FOREIGN KEY (Id_Ven) REFERENCES Usuario(ID_User)
 );
 
-
 CREATE TABLE Administrador (
 	Id_Adm varchar (10) NOT NULL PRIMARY KEY,
 	FOREIGN KEY (Id_Adm) REFERENCES Usuario(ID_User)
 );
-
 
 CREATE TABLE Propiedad_Tipo(
 	Tip_Id varchar(10) NOT NULL PRIMARY KEY,
@@ -61,7 +55,6 @@ CREATE TABLE Propiedad_Faci (
 	Id_Facilidad varchar (10) FOREIGN KEY REFERENCES Facilidad(Id_Facilidad) ,
 	PRIMARY KEY (Id_Propiedad, Id_Facilidad)
 );
-
 
 CREATE TABLE Propiedad_Dir (
 	Id_Propiedad varchar (10) FOREIGN KEY REFERENCES Propiedad(Id_Propiedad),
