@@ -400,3 +400,19 @@ BEGIN
     WHERE r.Id_Propiedad = @id_propiedad
 END
 EXEC ObtenerRetroalimentacion 'PROP001'
+
+CREATE PROCEDURE sp_obtener_propiedad_con_direccion(
+    @Id_Propiedad varchar(10)
+)
+AS
+BEGIN
+    SELECT 
+        p.Id_Propiedad, 
+        p.Tipo, 
+        p.Estado, 
+        pd.Calle + ' ' + pd.Casa + ', ' + pd.Ciudad AS Direccion,
+        p.Precio
+    FROM Propiedad p
+    INNER JOIN Propiedad_Dir pd ON p.Id_Propiedad = pd.Id_Propiedad
+    WHERE p.Id_Propiedad = @Id_Propiedad
+END

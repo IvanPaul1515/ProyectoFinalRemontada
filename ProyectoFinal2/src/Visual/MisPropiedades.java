@@ -105,6 +105,7 @@ public class MisPropiedades extends JDialog {
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setEditable(false);
+		txtUsuario.setText(actualUs);
 		//NUEVO MODIFIQUE AQUI 
 		//txtUsuario.setText(obtenerUsuarioActual());
 		txtUsuario.setBounds(686, 11, 114, 20);

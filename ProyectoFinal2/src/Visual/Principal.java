@@ -126,6 +126,12 @@ public class Principal extends JFrame {
 		tblPropiedadesRent.setModel(model);
         
         txtBuscar = new JTextField();
+        txtBuscar.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		txtBuscar.setText(null);
+        	}
+        });
         txtBuscar.setText("Buscar Ciudad...");
         txtBuscar.setBounds(450, 32, 504, 29);
         panel.add(txtBuscar);
@@ -155,10 +161,10 @@ public class Principal extends JFrame {
                 	loadTableDisponibles();
                 	
                 } else if (opcionSeleccionada.equals("Precio Desendente")) {
-                	loadTablePreciodDescendente();
-                	
-                } else if (opcionSeleccionada.equals("Precio Ascendente")) {
                 	loadTablePreciodAscendente(); 
+                	             	
+                } else if (opcionSeleccionada.equals("Precio Ascendente")) {
+                	loadTablePreciodDescendente();
 
                 } else if (opcionSeleccionada.equals("Casas")) {
                 	loadTableCasas();
@@ -174,12 +180,14 @@ public class Principal extends JFrame {
         });
         cmbFiltro.setModel(new DefaultComboBoxModel(new String[] {"Filtrar...", "Todos", "Disponibles", "Precio Ascendente", "Precio Desendente", "Casas", "Apartamento", "Lote"}));
         cmbFiltro.setToolTipText("");
-        cmbFiltro.setBounds(10, 253, 120, 22);
+        cmbFiltro.setBounds(10, 253, 141, 22);
         panel.add(cmbFiltro);
         
         JButton btnNewButton = new JButton("");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		String buscarString = txtBuscar.getText();
+        		loadTableBuscar(buscarString);
         	}
         });
         btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/Image/search_look_for_seek_magnifying_glass_lens_icon_141967 (1).png")));
@@ -259,7 +267,6 @@ public class Principal extends JFrame {
 	    return usuarioActual;
 	}
 
-	
 	private void loadTableTodos() {
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
@@ -418,6 +425,28 @@ public class Principal extends JFrame {
 					+ "JOIN Propiedad_Dir d ON p.Id_Propiedad = d.Id_Propiedad\r\n"
 					+ "WHERE p.Tipo = 'LOTE'\r\n"
 					+ "ORDER BY p.Id_Propiedad DESC;";
+			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
+			while(resultadoResultSet.next()) {
+				row[0] = resultadoResultSet.getString("Id_Propiedad");
+				row[1] = resultadoResultSet.getString("Tipo");
+				row[2] =resultadoResultSet.getString("Estado");
+				row[3] = resultadoResultSet.getString("Direccion");
+				row[4] =  " $ "+ resultadoResultSet.getString("Precio");
+				model.addRow(row);
+			}
+			
+		} catch (SQLException  ex) {
+			JOptionPane.showMessageDialog(null, ex.toString());
+		}
+
+	}
+	
+	private void loadTableBuscar(String IdPropiedad) {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		try {
+			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+			String consulta = "EXEC sp_obtener_propiedad_con_direccion '" + IdPropiedad + "';";
 			ResultSet resultadoResultSet = sqlStatement.executeQuery(consulta);
 			while(resultadoResultSet.next()) {
 				row[0] = resultadoResultSet.getString("Id_Propiedad");

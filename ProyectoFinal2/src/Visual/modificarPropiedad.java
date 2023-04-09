@@ -42,6 +42,7 @@ public class modificarPropiedad extends JDialog {
 	private JTextField txtCiudad;
 	private JTextField txtCasa;
 	private JSpinner spPrecio;
+	private JComboBox cbxtipo;
 
 	/**
 	 * Launch the application.
@@ -100,8 +101,8 @@ public class modificarPropiedad extends JDialog {
 			lblNewLabel_2.setBounds(10, 91, 46, 14);
 			panel.add(lblNewLabel_2);
 			
-			JComboBox cbxtipo = new JComboBox();
-			cbxtipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar"}));
+			cbxtipo = new JComboBox();
+			cbxtipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar", "CASA", "APTO", "LOTE"}));
 			cbxtipo.setBounds(60, 88, 184, 20);
 			panel.add(cbxtipo);
 			
@@ -161,27 +162,27 @@ public class modificarPropiedad extends JDialog {
 		panel_1.add(panel_2);
 		
 		JRadioButton rdbwifi = new JRadioButton("Wifi");
-		rdbwifi.setBounds(6, 17, 124, 21);
+		rdbwifi.setBounds(49, 17, 124, 21);
 		panel_2.add(rdbwifi);
 		
 		JRadioButton rdbCocina = new JRadioButton("Cocina\r\n");
-		rdbCocina.setBounds(149, 17, 124, 21);
+		rdbCocina.setBounds(222, 17, 124, 21);
 		panel_2.add(rdbCocina);
 		
 		JRadioButton rdbLavadora = new JRadioButton("Lavadora\r\n");
-		rdbLavadora.setBounds(149, 40, 124, 21);
+		rdbLavadora.setBounds(222, 40, 124, 21);
 		panel_2.add(rdbLavadora);
 		
 		JRadioButton rdbAire = new JRadioButton("Aire Acondicionado\r\n");
-		rdbAire.setBounds(279, 40, 143, 21);
+		rdbAire.setBounds(395, 40, 143, 21);
 		panel_2.add(rdbAire);
 		
 		JRadioButton rdbCalefac = new JRadioButton("Calefacci\u00F3n\r\n");
-		rdbCalefac.setBounds(279, 17, 143, 21);
+		rdbCalefac.setBounds(395, 17, 143, 21);
 		panel_2.add(rdbCalefac);
 		
 		JRadioButton rdbTv = new JRadioButton("Televisi\u00F3n");
-		rdbTv.setBounds(6, 40, 103, 21);
+		rdbTv.setBounds(49, 40, 103, 21);
 		panel_2.add(rdbTv);
 		
 		JPanel panel_3 = new JPanel();
@@ -191,27 +192,27 @@ public class modificarPropiedad extends JDialog {
 		panel_1.add(panel_3);
 		
 		JRadioButton rdbPiscina = new JRadioButton("Piscina");
-		rdbPiscina.setBounds(6, 17, 124, 21);
+		rdbPiscina.setBounds(49, 17, 124, 21);
 		panel_3.add(rdbPiscina);
 		
 		JRadioButton rdbJacuzzi = new JRadioButton("Jacazzi\r\n");
-		rdbJacuzzi.setBounds(6, 40, 124, 21);
+		rdbJacuzzi.setBounds(49, 40, 124, 21);
 		panel_3.add(rdbJacuzzi);
 		
 		JRadioButton rdbBarbacoa = new JRadioButton("Barbacoa");
-		rdbBarbacoa.setBounds(149, 17, 124, 21);
+		rdbBarbacoa.setBounds(222, 17, 124, 21);
 		panel_3.add(rdbBarbacoa);
 		
 		JRadioButton rdbParqueo = new JRadioButton("Parqueo");
-		rdbParqueo.setBounds(149, 40, 124, 21);
+		rdbParqueo.setBounds(222, 40, 124, 21);
 		panel_3.add(rdbParqueo);
 		
 		JRadioButton rdbGym = new JRadioButton("Gimnasio");
-		rdbGym.setBounds(279, 17, 143, 21);
+		rdbGym.setBounds(395, 17, 143, 21);
 		panel_3.add(rdbGym);
 		
 		JRadioButton rdbPingpong = new JRadioButton("Pingpong");
-		rdbPingpong.setBounds(279, 40, 143, 21);
+		rdbPingpong.setBounds(395, 40, 143, 21);
 		panel_3.add(rdbPingpong);
 		
 		JPanel panel_4 = new JPanel();
@@ -221,15 +222,15 @@ public class modificarPropiedad extends JDialog {
 		panel_1.add(panel_4);
 		
 		JRadioButton rdbMar = new JRadioButton("Frente al Mar");
-		rdbMar.setBounds(6, 17, 124, 21);
+		rdbMar.setBounds(49, 17, 124, 21);
 		panel_4.add(rdbMar);
 		
 		JRadioButton rdbMalecon = new JRadioButton("Malec\u00F3n\r\n");
-		rdbMalecon.setBounds(149, 17, 124, 21);
+		rdbMalecon.setBounds(222, 17, 124, 21);
 		panel_4.add(rdbMalecon);
 		
 		JRadioButton rdbPenthouse = new JRadioButton("Penthouse");
-		rdbPenthouse.setBounds(279, 17, 143, 21);
+		rdbPenthouse.setBounds(395, 17, 143, 21);
 		panel_4.add(rdbPenthouse);
 		
 		JPanel panel_5 = new JPanel();
@@ -239,15 +240,15 @@ public class modificarPropiedad extends JDialog {
 		panel_1.add(panel_5);
 		
 		JRadioButton rdbAlarma = new JRadioButton("Alarma");
-		rdbAlarma.setBounds(6, 17, 124, 21);
+		rdbAlarma.setBounds(49, 17, 124, 21);
 		panel_5.add(rdbAlarma);
 		
 		JRadioButton rdbCamaras = new JRadioButton("Camaras \r\n");
-		rdbCamaras.setBounds(149, 17, 124, 21);
+		rdbCamaras.setBounds(222, 17, 124, 21);
 		panel_5.add(rdbCamaras);
 		
 		JRadioButton rdbHumo = new JRadioButton("Detector de humo\r\n");
-		rdbHumo.setBounds(279, 17, 143, 21);
+		rdbHumo.setBounds(395, 17, 143, 21);
 		panel_5.add(rdbHumo);
 		{
 			JPanel buttonPane = new JPanel();
@@ -270,7 +271,7 @@ public class modificarPropiedad extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						int option = JOptionPane.showConfirmDialog(null, "Está seguro de modificar la propiedad: "+ idSelPropiedad, "Confirmación",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 						if(option == JOptionPane.YES_OPTION){
-							actualizarDatos(idSelPropiedad,idCUser,"APTO", String.valueOf(spPrecio.getValue()),"D",txtCalle.getText(), txtCasa.getText(), txtCiudad.getText());
+							actualizarDatos(idSelPropiedad,idCUser,cbxtipo.getSelectedItem().toString(), String.valueOf(spPrecio.getValue()),"D",txtCalle.getText(), txtCasa.getText(), txtCiudad.getText());
 						}
 					}
 				});
@@ -279,6 +280,7 @@ public class modificarPropiedad extends JDialog {
 				getRootPane().setDefaultButton(btnMod);
 			}
 		}
+		setLocationRelativeTo(null);
 		llenarCampos(idSelPropiedad);
 	}
 	
