@@ -359,6 +359,60 @@ END;
 
 EXEC sp_eliminar_CurrentUser;
 
+CREATE OR ALTER PROCEDURE sp_insertar_usuario (
+    @nom1 VARCHAR(15),
+    @nom2 VARCHAR(15),
+    @ape1 VARCHAR(15),
+    @ape2 VARCHAR(15),
+    @correo VARCHAR(50),
+    @telefono VARCHAR(10),
+    @cedula VARCHAR(10),
+    @user_nick VARCHAR(20),
+    @user_pass VARCHAR(20),
+    @clase VARCHAR(5),
+	@tipo_propietario VARCHAR (1)
+)
+AS
+BEGIN
+    DECLARE @nuevo_id VARCHAR(10);
+
+    -- Obtener el último ID de usuario
+    SELECT TOP 1 @nuevo_id = ID_User FROM Usuario ORDER BY ID_User DESC;
+
+    -- Generar el nuevo ID de usuario
+    IF @nuevo_id IS NULL
+        SET @nuevo_id = 'U0001';
+    ELSE
+        SET @nuevo_id = 'U' + RIGHT('0000' + CAST(SUBSTRING(@nuevo_id, 3, 4) + 1 AS VARCHAR(4)), 4);
+
+    -- Insertar el nuevo registro a USUARIO con el nuevo ID generado
+    INSERT INTO Usuario VALUES (@nuevo_id, @nom1, @nom2, @ape1, @ape2, @correo, @telefono, @cedula, @user_nick, @user_pass, @clase);
+
+	IF @clase = 'C'
+        INSERT INTO Cliente VALUES (@nuevo_id);
+    ELSE IF @clase = 'B'
+        INSERT INTO Vendedor VALUES (@nuevo_id, @tipo_propietario);
+    ELSE IF @clase = 'A'
+        INSERT INTO Administrador VALUES (@nuevo_id);
+
+
+END;
+CREATE OR ALTER PROCEDURE sp_validar_usernick (
+    @user_nick VARCHAR(20)
+)
+AS
+BEGIN
+    DECLARE @tipo_usuario BIT = 0;
+    DECLARE @contador INT = 0;
+
+    SELECT @contador = COUNT(*) FROM Usuario WHERE user_nick = @user_nick;
+
+    IF @contador > 0
+        SET @tipo_usuario = 1;
+
+    SELECT @tipo_usuario AS TipoUsuario;
+END;
+
 --------------(Agregado Nuevo Higinio)--------------------->>>>
 
 CREATE OR ALTER PROCEDURE sp_CargarPropiedadParaRent (
