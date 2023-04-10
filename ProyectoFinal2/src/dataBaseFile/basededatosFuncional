@@ -173,8 +173,13 @@ CREATE OR ALTER PROCEDURE sp_CargarPropiedad (
 )
 AS
 BEGIN
-	SELECT P.Precio,PD.Casa, PD.Calle, PD.Ciudad FROM Propiedad as P JOIN Propiedad_Dir as PD ON PD.Id_Propiedad = P.Id_Propiedad;
+	SELECT P.Precio, PD.Casa, PD.Calle, PD.Ciudad, P.Estado 
+	FROM Propiedad AS P 
+	JOIN Propiedad_Dir AS PD 
+	ON PD.Id_Propiedad = P.Id_Propiedad
+	WHERE P.Id_Propiedad = @propiedad_id;
 END;
+
 EXEC sp_CargarPropiedad 'PROP001';
 
 SELECT * FROM Usuario;

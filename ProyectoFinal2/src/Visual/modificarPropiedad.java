@@ -31,7 +31,9 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
+import java.io.Console;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class modificarPropiedad extends JDialog {
 
@@ -43,6 +45,8 @@ public class modificarPropiedad extends JDialog {
 	private JTextField txtCasa;
 	private JSpinner spPrecio;
 	private JComboBox cbxtipo;
+	private JRadioButton rdbDisponible;
+	private JRadioButton rdbRentado;
 
 	/**
 	 * Launch the application.
@@ -61,8 +65,9 @@ public class modificarPropiedad extends JDialog {
 	 * Create the dialog.
 	 */
 	public modificarPropiedad(String idCUser, String idSelPropiedad) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(modificarPropiedad.class.getResource("/Image/repair.png")));
 		setTitle("Modificar propiedad");
-		setBounds(100, 100, 621, 678);
+		setBounds(100, 100, 621, 763);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -70,7 +75,7 @@ public class modificarPropiedad extends JDialog {
 		{
 			JPanel panel = new JPanel();
 			panel.setToolTipText("Informacion");
-			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel.setBorder(new TitledBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "Informaci\u00F3n:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel.setBounds(5, 11, 595, 134);
 			contentPanel.add(panel);
 			panel.setLayout(null);
@@ -117,7 +122,7 @@ public class modificarPropiedad extends JDialog {
 		}
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Direcci\u00F3n:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBorder(new TitledBorder(new TitledBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "Direcci\u00F3n:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(5, 156, 595, 127);
 		contentPanel.add(panel);
 		panel.setLayout(null);
@@ -146,6 +151,7 @@ public class modificarPropiedad extends JDialog {
 		
 		txtCasa = new JTextField();
 		txtCasa.setBounds(344, 19, 214, 20);
+		txtCasa.setText(null);
 		panel.add(txtCasa);
 		txtCasa.setColumns(10);
 		
@@ -157,7 +163,7 @@ public class modificarPropiedad extends JDialog {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
-		panel_2.setBorder(new TitledBorder(null, "Elementos b\u00E1sicos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Elementos b\u00E1sicos:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_2.setBounds(0, 0, 590, 74);
 		panel_1.add(panel_2);
 		
@@ -250,6 +256,34 @@ public class modificarPropiedad extends JDialog {
 		JRadioButton rdbHumo = new JRadioButton("Detector de humo\r\n");
 		rdbHumo.setBounds(395, 17, 143, 21);
 		panel_5.add(rdbHumo);
+		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBorder(new TitledBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "Disponibilidad:", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		panel_6.setBounds(5, 612, 590, 63);
+		contentPanel.add(panel_6);
+		panel_6.setLayout(null);
+		
+		rdbDisponible = new JRadioButton("Disponible");
+		rdbDisponible.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				rdbDisponible.setSelected(true);
+				rdbRentado.setSelected(false);
+				
+			}
+		});
+		rdbDisponible.setBounds(119, 21, 109, 23);
+		panel_6.add(rdbDisponible);
+		
+		rdbRentado = new JRadioButton("Rentado");
+		rdbRentado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbRentado.setSelected(true);
+				rdbDisponible.setSelected(false);
+			}
+		});
+		rdbRentado.setBounds(317, 21, 109, 23);
+		
+		panel_6.add(rdbRentado);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -271,7 +305,7 @@ public class modificarPropiedad extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						int option = JOptionPane.showConfirmDialog(null, "Está seguro de modificar la propiedad: "+ idSelPropiedad, "Confirmación",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 						if(option == JOptionPane.YES_OPTION){
-							actualizarDatos(idSelPropiedad,idCUser,cbxtipo.getSelectedItem().toString(), String.valueOf(spPrecio.getValue()),"D",txtCalle.getText(), txtCasa.getText(), txtCiudad.getText());
+							actualizarDatos(idSelPropiedad,idCUser,cbxtipo.getSelectedItem().toString(), String.valueOf(spPrecio.getValue()),txtCalle.getText(), txtCasa.getText(), txtCiudad.getText());
 						}
 					}
 				});
@@ -281,14 +315,20 @@ public class modificarPropiedad extends JDialog {
 			}
 		}
 		setLocationRelativeTo(null);
+		System.out.println("idpropiedad"+ idSelPropiedad);
 		llenarCampos(idSelPropiedad);
 	}
 	
-	private void actualizarDatos(String idPropiedad, String idVen, String Tipo, String precio, String estado, String calle, String casa, String ciudad) {
+	private void actualizarDatos(String idPropiedad, String idVen, String Tipo, String precio, String calle, String casa, String ciudad) {
+		String estado = null;
+		if(rdbDisponible.isSelected()) {
+			estado = "D";
+		}else if(rdbRentado.isSelected()) {
+			estado = "R";
+		}
 		try {
 			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
 			String consulta = "EXEC sp_modificarPropiedad '"+ idPropiedad +"','"+idVen +"','"+Tipo+"',"+precio+",'"+estado+"','"+calle+"','"+casa+"','"+ciudad+"';";
-			//String consulta = "EXEC sp_modificarPropiedad '"+ "PROP001" +"','"+ "10001" +"','"+ "A" +"',"+"1500"+",'"+"D"+"','"+"calle3"+"','"+"30"+"','"+"Santiago"+"';";
 			sqlStatement.executeQuery(consulta);
 		} catch (SQLException ex) {
 			if(ex.getErrorCode() == 0) {
@@ -300,19 +340,29 @@ public class modificarPropiedad extends JDialog {
 	}
 	
 	private void llenarCampos(String idPropiedad) {
-		try {
-			java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
-			String consulta = "EXEC sp_CargarPropiedad '"+ idPropiedad +"';";
-			ResultSet rs =sqlStatement.executeQuery(consulta);
-			if (rs.next()) {
-				spPrecio.setValue(Integer.parseInt(rs.getString("Precio")));
-				txtCasa.setText(rs.getString("Casa"));
-				txtCalle.setText(rs.getString("Calle"));
-				txtCiudad.setText(rs.getString("Ciudad"));
+	
+			try {
+				java.sql.Statement sqlStatement = Conexion.getConexion().createStatement();
+				String consulta = "EXEC sp_CargarPropiedad '"+ idPropiedad +"';";
+				ResultSet rs =sqlStatement.executeQuery(consulta);
+				if (rs.next()) {
+
+					spPrecio.setValue(Integer.parseInt(rs.getString("Precio")));
+					txtCasa.setText(rs.getString("Casa"));
+					txtCalle.setText(rs.getString("Calle"));
+					txtCiudad.setText(rs.getString("Ciudad"));
+					if(rs.getString("Estado").equalsIgnoreCase("D")) {
+						rdbDisponible.setSelected(true);
+						rdbRentado.setSelected(false);	
+					}
+					if(rs.getString("Estado").equalsIgnoreCase("R")) {
+						rdbRentado.setSelected(true);
+						rdbDisponible.setSelected(false);
+					}
+				}
+			} catch (SQLException ex) {
+				JOptionPane.showMessageDialog(null, ex.toString());
+				
 			}
-		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, ex.toString());
-			
-		}
 	}
 }

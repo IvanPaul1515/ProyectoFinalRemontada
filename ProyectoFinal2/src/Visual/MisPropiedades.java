@@ -140,6 +140,7 @@ public class MisPropiedades extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				modificarPropiedad ModP = new modificarPropiedad(actualUs,idPropiedad);
 				ModP.setVisible(true);
+				ModP = null;
 				loadTable();
 			}
 		});
