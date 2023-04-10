@@ -413,7 +413,15 @@ BEGIN
     SELECT @tipo_usuario AS TipoUsuario;
 END;
 
---------------(Agregado Nuevo Higinio)--------------------->>>>
+CREATE OR ALTER PROCEDURE sp_registrar_facilidad_propiedad (
+    @id_propiedad varchar(10),
+    @id_facilidad varchar(10)
+)
+AS
+BEGIN
+    INSERT INTO Propiedad_Faci (Id_Propiedad, Id_Facilidad)
+    VALUES (@id_propiedad, @id_facilidad);
+END;
 
 CREATE OR ALTER PROCEDURE sp_CargarPropiedadParaRent (
     @propiedad_id VARCHAR(10)
@@ -452,7 +460,9 @@ BEGIN
     INNER JOIN Cliente cl ON r.Id_Cliente = cl.Id_Client
     INNER JOIN Usuario c ON cl.Id_Client = c.ID_User
     WHERE r.Id_Propiedad = @id_propiedad
-END
+END;
+
+
 EXEC ObtenerRetroalimentacion 'PROP001'
 
 CREATE PROCEDURE sp_obtener_propiedad_con_direccion(
@@ -469,4 +479,4 @@ BEGIN
     FROM Propiedad p
     INNER JOIN Propiedad_Dir pd ON p.Id_Propiedad = pd.Id_Propiedad
     WHERE p.Id_Propiedad = @Id_Propiedad
-END
+END;
