@@ -123,6 +123,92 @@ Create table CurrentUser (
  
 )
 
+
+ALTER TABLE Cliente
+ADD CONSTRAINT FK_Cliente_Usuario
+FOREIGN KEY (Id_Client) REFERENCES Usuario(ID_User);
+
+ALTER TABLE Vendedor
+ADD CONSTRAINT FK_Vendedor_Usuario
+FOREIGN KEY (Id_Ven) REFERENCES Usuario(ID_User);
+
+ALTER TABLE Administrador
+ADD CONSTRAINT FK_Admin_Usuario
+FOREIGN KEY (Id_Adm) REFERENCES Usuario(ID_User);
+
+ALTER TABLE Propiedad
+ADD CONSTRAINT FK_Propiedad_Vendedor
+FOREIGN KEY (Id_Ven) REFERENCES Vendedor(Id_Ven);
+
+ALTER TABLE Propiedad_Faci
+ADD CONSTRAINT FK_PropiedadFaci_Propiedad
+FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad);
+
+ALTER TABLE Propiedad_Faci
+ADD CONSTRAINT FK_PropiedadFaci_Facilidad
+FOREIGN KEY (Id_Facilidad) REFERENCES Facilidad(Id_Facilidad);
+
+ALTER TABLE Propiedad_Dir
+ADD CONSTRAINT FK_PropiedadDir_Propiedad
+FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad);
+
+ALTER TABLE Imagen
+ADD CONSTRAINT FK_Imagen_Propiedad
+FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad);
+
+ALTER TABLE Reserva
+ADD CONSTRAINT FK_Reserva_Cliente
+FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Client);
+
+ALTER TABLE Reserva
+ADD CONSTRAINT FK_Reserva_Propiedad
+FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad);
+
+ALTER TABLE Factura
+ADD CONSTRAINT FK_Factura_Cliente
+FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Client);
+
+ALTER TABLE Factura
+ADD CONSTRAINT FK_Factura_Reserva
+FOREIGN KEY (Id_Reserva) REFERENCES Reserva(Id_Reserva);
+
+ALTER TABLE Factura
+ADD CONSTRAINT FK_Factura_Vendedor
+FOREIGN KEY (Id_Ven) REFERENCES Vendedor(Id_Ven);
+
+ALTER TABLE Retroalimentacion
+ADD CONSTRAINT FK_Retroalimentacion_Cliente
+FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Client);
+
+ALTER TABLE Retroalimentacion
+ADD CONSTRAINT FK_Retroalimentacion_Propiedad
+FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad);
+
+ALTER TABLE Historial
+ADD CONSTRAINT FK_Historial_Cliente
+FOREIGN KEY (Id_User) REFERENCES Cliente(Id_Client);
+
+ALTER TABLE Historial
+ADD CONSTRAINT FK_Historial_Propiedad
+FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad);
+
+ALTER TABLE Historial
+ADD CONSTRAINT FK_Historial_Factura
+FOREIGN KEY (Id_Factura) REFERENCES Factura(Id_Factura);
+
+ALTER TABLE Autorizar_Post
+ADD CONSTRAINT FK_AutorizarPost_Usuario
+FOREIGN KEY (Id_Usuario) REFERENCES Usuario(ID_User);
+
+ALTER TABLE Autorizar_Post
+ADD CONSTRAINT FK_AutorizarPost_Propiedad
+FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad);
+
+ALTER TABLE CurrentUser
+ADD CONSTRAINT FK_CurrentUser_Usuario
+FOREIGN KEY (ID_User) REFERENCES Usuario(ID_User);
+
+
 -------------------------------------------------Store Procedure-------------------------------------------------
 
 
@@ -244,6 +330,7 @@ BEGIN
         SET @resultado = 0;
 END;
 SELECT * FROM Usuario;
+******************************************************************************************************************
 
 CREATE OR ALTER PROCEDURE sp_obtener_tipo_usuarioVendedor(
     @id_usuario VARCHAR(10))
