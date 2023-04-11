@@ -107,7 +107,7 @@ public class modificarPropiedad extends JDialog {
 			panel.add(lblNewLabel_2);
 			
 			cbxtipo = new JComboBox();
-			cbxtipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar", "CASA", "APTO", "LOTE"}));
+			cbxtipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar", "CASA", "APTO", "HABI"}));
 			cbxtipo.setBounds(60, 88, 184, 20);
 			panel.add(cbxtipo);
 			

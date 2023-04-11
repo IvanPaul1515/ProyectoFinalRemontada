@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
 import Logico.Conexion;
@@ -110,7 +111,7 @@ public class AñadirPropiedad extends JFrame {
 		panel.add(txtPrecio);
 		
 		cmbTipo = new JComboBox();
-		cmbTipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar", "Habitacion", "Casa ", "Apartamento "}));
+		cmbTipo.setModel(new DefaultComboBoxModel(new String[] {"Selecionar", "Habitacion", "Casa", "Apartamento"}));
 		cmbTipo.setBounds(96, 83, 105, 22);
 		panel.add(cmbTipo);
 		
@@ -123,13 +124,15 @@ public class AñadirPropiedad extends JFrame {
 		JButton btnAgregar = new JButton("Registrar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String tipoPropiedad;
+				String tipoPropiedad = null;
 				if(cmbTipo.getSelectedItem().toString().equals("Casa")) {
-					tipoPropiedad = "C";
-				} else if (cmbTipo.getSelectedItem().toString().equals("Habitacion")){
-					tipoPropiedad = "H";
-				}else {
-					tipoPropiedad = "A";
+					tipoPropiedad = "CASA";
+				}
+				if (cmbTipo.getSelectedItem().toString().equals("Habitacion")){
+					tipoPropiedad = "HABI";
+				}
+				if(cmbTipo.getSelectedItem().toString().equals("Apartamento")) {
+					tipoPropiedad = "APTO";
 				}
 				int precio;
 				try {
@@ -137,7 +140,7 @@ public class AñadirPropiedad extends JFrame {
 				} catch (NumberFormatException e) {
 				    precio = 0; 
 				}
-				String id_ven = obtenerIdUsuario(username);
+				String id_ven =username;
 				String calle = txtCalle.getText();
 				String casa = txtCasa.getText();
 				String ciudad = txtCuidad.getText();
@@ -216,6 +219,7 @@ public class AñadirPropiedad extends JFrame {
 	}
 	
 	public void registrarPropiedad(String id_P, String id_ven, String tipo, int precio, String calle, String casa, String ciudad) {
+		System.out.println(id_P+" "+id_ven+" "+tipo+" "+precio+" "+calle+" "+casa+" "+ciudad);
 	    try {
 	        Connection con = Conexion.getConexion();
 	        CallableStatement cs = con.prepareCall("{call sp_insertar_propiedad(?, ?, ?, ?, ?, ?, ?)}");
@@ -229,7 +233,11 @@ public class AñadirPropiedad extends JFrame {
 	        cs.execute();
 	        System.out.println("La propiedad se registró exitosamente.");
 	    } catch (SQLException e) {
-	        System.err.println("Error al registrar la propiedad: " + e.getMessage());
+	    	if(e.getErrorCode() == 0) {
+				JOptionPane.showMessageDialog(null, "Propiedad modificada correctamente");
+			}else {
+			JOptionPane.showMessageDialog(null, e.toString());
+			}
 	    }
 	}
 
