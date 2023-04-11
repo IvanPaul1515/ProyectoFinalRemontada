@@ -307,7 +307,11 @@ public class modificarPropiedad extends JDialog {
 						if(option == JOptionPane.YES_OPTION){
 							actualizarDatos(idSelPropiedad,idCUser,cbxtipo.getSelectedItem().toString(), String.valueOf(spPrecio.getValue()),txtCalle.getText(), txtCasa.getText(), txtCiudad.getText());
 						}
+						MisPropiedades MisPropiedadess = new MisPropiedades();
+						MisPropiedadess.setVisible(true);
+				        setVisible(false);
 					}
+					
 				});
 				btnMod.setActionCommand("OK");
 				buttonPane.add(btnMod);
