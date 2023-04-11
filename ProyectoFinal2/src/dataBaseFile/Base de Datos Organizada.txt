@@ -123,6 +123,15 @@ Create table CurrentUser (
  
 )
 
+CREATE TABLE Autorizar_Post(
+  Id_aut varchar(10) NOT NULL PRIMARY KEY,
+  Id_Usuario varchar(10),
+  Id_Propiedad varchar(10),
+  Id_Admin varchar(10),
+  FOREIGN KEY (Id_Usuario) REFERENCES Usuario(ID_User),
+  FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad),
+  FOREIGN KEY (Id_Admin) REFERENCES Administrador(Id_Adm)
+);
 
 ALTER TABLE Cliente
 ADD CONSTRAINT FK_Cliente_Usuario
@@ -543,3 +552,33 @@ BEGIN
     INNER JOIN Propiedad_Dir pd ON p.Id_Propiedad = pd.Id_Propiedad
     WHERE p.Id_Propiedad = @Id_Propiedad
 END;
+
+******************************************************************************************************************
+
+CREATE OR ALTER PROCEDURE sp_InsertarAutorizacionPost (
+    @Id_aut varchar(10),
+    @Id_Usuario varchar(10),
+    @Id_Propiedad varchar(10),
+    @Id_Admin varchar(10)
+)
+AS
+BEGIN
+    INSERT INTO Autorizar_Post (Id_aut, Id_Usuario, Id_Propiedad, Id_Admin)
+    VALUES (@Id_aut, @Id_Usuario, @Id_Propiedad, @Id_Admin)
+END;
+
+******************************************************************************************************************
+
+CREATE OR ALTER PROCEDURE sp_PropiedadesAutorizada
+AS
+BEGIN
+	SELECT Propiedad.*, COUNT(*) AS [Count]
+	FROM Propiedad
+	INNER JOIN Autorizar_Post
+	ON Propiedad.Id_Propiedad = Autorizar_Post.Id_Propiedad
+	GROUP BY Propiedad.Id_Propiedad, Propiedad.Id_Ven, Propiedad.Tipo, Propiedad.Precio, Propiedad.Estado
+	HAVING COUNT(*) >= 1;
+END;
+
+EXEC sp_PropiedadesAutorizada;
+
