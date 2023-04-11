@@ -108,13 +108,6 @@ CREATE TABLE Historial(
 
 );
 
-CREATE TABLE Autorizar_Post(
-  Id_aut varchar(10) NOT NULL PRIMARY KEY,
-  Id_Usuario varchar(10),
-  Id_Propiedad varchar(10),
-  FOREIGN KEY (Id_Usuario) REFERENCES Usuario(ID_User),
-  FOREIGN KEY (Id_Propiedad) REFERENCES Propiedad(Id_Propiedad)
-);
 
 Create table CurrentUser (
 	ID_User varchar(10) NOT NULL,
